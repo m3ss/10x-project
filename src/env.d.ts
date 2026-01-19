@@ -14,7 +14,14 @@ declare global {
 interface ImportMetaEnv {
   readonly SUPABASE_URL: string;
   readonly SUPABASE_KEY: string;
+  readonly SUPABASE_SERVICE_KEY: string;
   readonly OPENROUTER_API_KEY: string;
+  readonly AI_SERVICE_TIMEOUT?: string;
+  readonly AI_SERVICE_PROVIDER?: string;
+  readonly OPENAI_API_KEY?: string;
+  readonly OPENAI_MODEL?: string;
+  readonly CLAUDE_API_KEY?: string;
+  readonly CLAUDE_MODEL?: string;
   // more env variables...
 }
 

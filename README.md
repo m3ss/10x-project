@@ -2,6 +2,33 @@
 
 A modern, opinionated starter template for building fast, accessible, and AI-friendly web applications.
 
+## Project: AI-Powered Flashcard Generator
+
+This application uses AI to generate educational flashcards from user-provided text.
+
+### ✅ Implemented Features
+
+- **POST /api/generations** - AI flashcard generation endpoint
+  - Input validation (1000-10000 characters)
+  - Mock AI service with automatic retry logic (up to 3 attempts)
+  - Generation metadata tracking (hash, duration, count)
+  - Comprehensive error logging
+  - Performance monitoring
+  - 60-second timeout for AI calls
+  - Exponential backoff for retries
+
+### 🚧 In Progress
+
+- Frontend UI for flashcard generation
+- Flashcard management endpoints (CRUD)
+- User authentication with Supabase
+- Real AI service integration (OpenAI/Claude)
+
+### 📚 API Documentation
+
+See `src/pages/api/README.md` for detailed API documentation.
+See `src/pages/api/TESTING.md` for test examples and scenarios.
+
 ## Tech Stack
 
 - [Astro](https://astro.build/) v5.5.5 - Modern web framework for building fast, content-focused websites
@@ -16,6 +43,14 @@ A modern, opinionated starter template for building fast, accessible, and AI-fri
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js v22.14.0 (as specified in `.nvmrc`)
+- npm (comes with Node.js)
+- Docker (required for Supabase local development)
+
+### Quick Start
+
 1. Clone the repository:
 
 ```bash
@@ -29,25 +64,53 @@ cd 10x-astro-starter
 npm install
 ```
 
-3. Run the development server:
+3. Set up Supabase local instance:
+
+```bash
+# Start Supabase (first time will download Docker images)
+npx supabase start
+
+# Get connection details
+npx supabase status
+```
+
+4. Configure environment variables:
+
+Create `.env` file with values from `npx supabase status`:
+```bash
+SUPABASE_URL=http://127.0.0.1:15431
+SUPABASE_KEY=<your-anon-key>
+```
+
+5. Run the development server:
 
 ```bash
 npm run dev
 ```
 
-4. Build for production:
+6. Access the application:
 
-```bash
-npm run build
-```
+- **Frontend & API**: http://localhost:4321
+- **Supabase Studio**: http://127.0.0.1:15434
+
+### Documentation
+
+- **API Documentation**: See `src/pages/api/README.md`
+- **Testing Guide**: See `src/pages/api/TESTING.md`
+- **Quick Start**: See `QUICKSTART.md`
+- **Supabase Setup**: See `SUPABASE.md`
+- **Implementation Details**: See `IMPLEMENTATION.md`
 
 ## Available Scripts
 
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server (http://localhost:4321)
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 - `npm run lint:fix` - Fix ESLint issues
+- `npx supabase start` - Start Supabase local instance
+- `npx supabase stop` - Stop Supabase
+- `npx supabase status` - Check Supabase status and get connection details
 
 ## Project Structure
 
