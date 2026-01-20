@@ -101,9 +101,7 @@ export const ErrorNotification = memo(function ErrorNotification({
           {icons[type]}
         </svg>
         <div className="flex-1 min-w-0">
-          <h3 className={`text-sm font-medium ${currentStyle.titleColor}`}>
-            {titles[type]}
-          </h3>
+          <h3 className={`text-sm font-medium ${currentStyle.titleColor}`}>{titles[type]}</h3>
           <p className={`mt-1 text-sm ${currentStyle.textColor}`}>{message}</p>
         </div>
         {dismissible && (
@@ -113,19 +111,8 @@ export const ErrorNotification = memo(function ErrorNotification({
             className={`flex-shrink-0 rounded-md p-1.5 ${currentStyle.iconColor} ${currentStyle.buttonHover} transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent`}
             aria-label="Zamknij powiadomienie"
           >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         )}

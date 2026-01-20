@@ -12,23 +12,27 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 ## ✅ Zrealizowane funkcjonalności
 
 ### 1. Wprowadzanie tekstu źródłowego
+
 - ✅ Pole tekstowe z walidacją (1000-10000 znaków)
 - ✅ Dynamiczny licznik znaków
 - ✅ Wizualne wskazanie poprawności (kolory)
 - ✅ Komunikaty o stanie walidacji
 
 ### 2. Generowanie fiszek przez AI
+
 - ✅ Przycisk "Generuj fiszki" z ikoną
 - ✅ Integracja z API `POST /api/generations`
 - ✅ Stan ładowania z skeleton screens
 - ✅ Obsługa błędów (400, 500)
 
 ### 3. Wyświetlanie propozycji fiszek
+
 - ✅ Lista fiszek z front/back
 - ✅ Statystyki (wszystkie/zaakceptowane)
 - ✅ Statusy wizualne (zaakceptowana, edytowana)
 
 ### 4. Akcje użytkownika na fiszkach
+
 - ✅ **Zatwierdź/Odznacz** - toggle accepted status
 - ✅ **Edytuj** - tryb edycji z walidacją
   - Front: max 200 znaków
@@ -38,6 +42,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 - ✅ **Odrzuć** - usunięcie z listy
 
 ### 5. Zapis fiszek do bazy
+
 - ✅ Przycisk "Zapisz wszystkie"
 - ✅ Przycisk "Zapisz zaakceptowane"
 - ✅ Integracja z API `POST /api/flashcards`
@@ -45,6 +50,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 - ✅ Komunikaty sukcesu/błędu
 
 ### 6. UX/UI Enhancements
+
 - ✅ Ikony we wszystkich przyciskach
 - ✅ Responsywny design (mobile/tablet/desktop)
 - ✅ Dark mode support
@@ -53,11 +59,13 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 - ✅ Loading states z spinnerami
 
 ### 7. Performance & Optymalizacje
+
 - ✅ React.memo() na wszystkich komponentach
 - ✅ useCallback() dla event handlers
 - ✅ Minimalne re-rendery
 
 ### 8. Dostępność (a11y)
+
 - ✅ ARIA attributes (role, aria-label, aria-live, etc.)
 - ✅ Nawigacja klawiaturą
 - ✅ Screen reader support
@@ -66,6 +74,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 ## 📁 Utworzone pliki
 
 ### Komponenty (`src/components/`)
+
 1. **FlashcardGenerationView.tsx** - główny kontener widoku
 2. **TextInputArea.tsx** - pole tekstowe z walidacją
 3. **FlashcardList.tsx** - lista fiszek ze statystykami
@@ -76,21 +85,26 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 8. **README.md** - dokumentacja komponentów
 
 ### Hooki (`src/components/hooks/`)
+
 1. **useGenerateFlashcards.ts** - generowanie fiszek przez API
 2. **useSaveFlashcards.ts** - zapis fiszek do bazy
 
 ### API Endpoints (`src/pages/api/`)
+
 1. **flashcards.ts** - POST endpoint dla zapisu fiszek
 2. **generations.ts** - POST endpoint dla generowania (już istniał)
 
 ### Serwisy (`src/lib/`)
+
 1. **flashcard.service.ts** - logika biznesowa dla operacji na fiszkach
 2. **generation.service.ts** - logika dla generowania (już istniał)
 
 ### Strony (`src/pages/`)
+
 1. **generate.astro** - strona widoku dostępna pod `/generate`
 
 ### Dokumentacja
+
 1. **src/components/README.md** - szczegółowa dokumentacja komponentów
 2. **GENERATE_VIEW_IMPLEMENTATION.md** - ten plik (podsumowanie)
 
@@ -135,6 +149,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 ## 🎨 Design System
 
 ### Kolory
+
 - **Neutral:** podstawowe tło i tekst
 - **Green:** sukces, zaakceptowane, walidacja OK
 - **Red:** błędy, walidacja failed
@@ -142,18 +157,21 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 - **Amber:** ostrzeżenia
 
 ### Spacing
+
 - Gap: 2 (0.5rem) - małe odstępy
 - Space-y: 4 (1rem) - standardowe odstępy
 - Space-y: 6 (1.5rem) - większe odstępy
 - Padding: px-4 py-8 - główny kontener
 
 ### Typography
+
 - H1: text-3xl font-bold
 - H2: text-xl font-semibold
 - Body: text-sm
 - Labels: text-xs
 
 ### Shadows & Borders
+
 - Border: border border-neutral-200
 - Rounded: rounded-md, rounded-lg
 - Dark mode: dark:border-neutral-800
@@ -161,6 +179,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 ## 🧪 Testowanie
 
 ### Przetestowane scenariusze
+
 ✅ Happy path (pełny flow od generowania do zapisu)  
 ✅ Walidacja pola tekstowego (< 1000, > 10000)  
 ✅ Walidacja edycji fiszki (> 200 front, > 500 back)  
@@ -172,26 +191,31 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 ✅ Dark mode
 
 ### Status testów
+
 **Wszystkie testy przeszły pomyślnie** ✅
 
 ## 📊 Metryki
 
 ### Komponenty
+
 - Utworzono: **7 komponentów React**
 - Zmemoizowano: **7/7** (100%)
 - TypeScript coverage: **100%**
 
 ### Kod
+
 - Brak błędów lintera: ✅
 - Brak błędów TypeScript: ✅
 - Wszystkie komponenty dokumentowane: ✅
 
 ### Performance
+
 - React.memo(): używane wszędzie
 - useCallback(): używane dla event handlers
 - Lazy loading: nie wymagane (komponenty małe)
 
 ### Accessibility (a11y)
+
 - ARIA attributes: ✅
 - Keyboard navigation: ✅
 - Screen reader support: ✅
@@ -201,6 +225,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 ## 🚀 Kolejne kroki (opcjonalne)
 
 ### Możliwe usprawnienia w przyszłości:
+
 1. **Infinite scroll** dla dużych list fiszek
 2. **Bulk actions** (zaznacz wszystkie, odznacz wszystkie)
 3. **Filtrowanie** fiszek (zaakceptowane, edytowane)
@@ -213,6 +238,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 10. **Undo/Redo** dla akcji użytkownika
 
 ### Testy automatyczne:
+
 - Unit tests dla hooków (Vitest)
 - Component tests (React Testing Library)
 - E2E tests (Playwright)
@@ -221,6 +247,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 ## 📝 Uwagi techniczne
 
 ### Użyte technologie
+
 - **React 19** - framework komponentowy
 - **TypeScript 5** - type safety
 - **Tailwind 4** - styling
@@ -229,6 +256,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 - **Supabase** - baza danych
 
 ### Wzorce projektowe
+
 - **Custom Hooks** - logika biznesowa wydzielona
 - **Compound Components** - FlashcardList + FlashcardListItem
 - **Controlled Components** - pełna kontrola stanu
@@ -236,6 +264,7 @@ Zaimplementowano kompletny widok frontend dla generowania fiszek przez AI, zgodn
 - **Error Boundaries** - obsługa błędów (przyszłość)
 
 ### Best Practices
+
 ✅ Separation of Concerns  
 ✅ DRY (Don't Repeat Yourself)  
 ✅ Single Responsibility Principle  
@@ -264,6 +293,7 @@ Plan wdrożenia z `.ai/generate-view-implementation-plan.md` został zrealizowan
 - [x] Krok 12: Code review i refaktoryzacja
 
 **Dodatkowe usprawnienia:**
+
 - ✅ Ikony we wszystkich przyciskach
 - ✅ Hook useSaveFlashcards do zarządzania zapisem
 - ✅ Endpoint API POST /api/flashcards
@@ -278,5 +308,5 @@ Implementacja widoku generowania fiszek została **zakończona pomyślnie**. Wsz
 
 ---
 
-*Implementacja wykonana przez: AI Assistant (Claude Sonnet 4.5)*  
-*Data zakończenia: 2026-01-19*
+_Implementacja wykonana przez: AI Assistant (Claude Sonnet 4.5)_  
+_Data zakończenia: 2026-01-19_

@@ -1,0 +1,261 @@
+---
+/**
+ * Test page for OpenRouter Service integration
+ * Access at: http://localhost:4322/test-openrouter
+ */
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenRouter Service Test</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: white;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+      }
+
+      .test-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .test-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .test-card h2 {
+        color: #667eea;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+        padding: 0.75rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      button:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .result {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f7fafc;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .result.success {
+        border-left: 4px solid #48bb78;
+      }
+
+      .result.error {
+        border-left: 4px solid #f56565;
+        color: #c53030;
+      }
+
+      .loading {
+        display: inline-block;
+        margin-left: 0.5rem;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      .info-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .info-card h3 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      .config-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .config-item:last-child {
+        border-bottom: none;
+      }
+
+      .config-label {
+        font-weight: 600;
+        color: #4a5568;
+      }
+
+      .config-value {
+        color: #2d3748;
+        font-family: "Courier New", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🧪 OpenRouter Service Test Suite</h1>
+
+      <div class="info-card" id="config-card">
+        <h3>Configuration</h3>
+        <div id="config-content">Loading...</div>
+      </div>
+
+      <div class="test-grid">
+        <div class="test-card">
+          <h2>Basic Response Test</h2>
+          <p>Tests simple text response from the AI model.</p>
+          <button onclick="runTest('basic')" id="btn-basic">Run Test</button>
+          <div id="result-basic" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-card">
+          <h2>Flashcard Generation Test</h2>
+          <p>Tests structured JSON response with flashcard generation.</p>
+          <button onclick="runTest('flashcards')" id="btn-flashcards">Run Test</button>
+          <div id="result-flashcards" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-card">
+          <h2>Full Integration Test</h2>
+          <p>Runs all tests (config, basic, flashcards).</p>
+          <button onclick="runTest('all')" id="btn-all">Run All Tests</button>
+          <div id="result-all" class="result" style="display: none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Load configuration on page load
+      async function loadConfig() {
+        try {
+          const response = await fetch("/api/test-openrouter?test=config");
+          const data = await response.json();
+
+          if (data.success) {
+            const config = data.config;
+            document.getElementById("config-content").innerHTML = `
+              <div class="config-item">
+                <span class="config-label">API Key:</span>
+                <span class="config-value">${config.hasApiKey ? "✅ Set" : "❌ Not Set"} (${config.apiKeyPreview})</span>
+              </div>
+              <div class="config-item">
+                <span class="config-label">Provider:</span>
+                <span class="config-value">${config.provider}</span>
+              </div>
+              <div class="config-item">
+                <span class="config-label">Model:</span>
+                <span class="config-value">${config.model}</span>
+              </div>
+              <div class="config-item">
+                <span class="config-label">Temperature:</span>
+                <span class="config-value">${config.temperature}</span>
+              </div>
+              <div class="config-item">
+                <span class="config-label">Top-P:</span>
+                <span class="config-value">${config.topP}</span>
+              </div>
+              <div class="config-item">
+                <span class="config-label">Timeout:</span>
+                <span class="config-value">${config.timeout}ms</span>
+              </div>
+            `;
+          }
+        } catch (error) {
+          document.getElementById("config-content").innerHTML = `<p style="color: #f56565;">Failed to load configuration</p>`;
+        }
+      }
+
+      async function runTest(testType) {
+        const btn = document.getElementById(`btn-${testType}`);
+        const resultDiv = document.getElementById(`result-${testType}`);
+
+        // Disable button and show loading
+        btn.disabled = true;
+        btn.innerHTML = `Running... <span class="loading">⏳</span>`;
+        resultDiv.style.display = "block";
+        resultDiv.className = "result";
+        resultDiv.innerHTML = "Running test...";
+
+        try {
+          const response = await fetch(`/api/test-openrouter?test=${testType}`);
+          const data = await response.json();
+
+          if (data.success) {
+            resultDiv.className = "result success";
+            resultDiv.innerHTML = `<strong>✅ Test Passed</strong><pre>${JSON.stringify(data, null, 2)}</pre>`;
+          } else {
+            resultDiv.className = "result error";
+            resultDiv.innerHTML = `<strong>❌ Test Failed</strong><pre>${JSON.stringify(data, null, 2)}</pre>`;
+          }
+        } catch (error) {
+          resultDiv.className = "result error";
+          resultDiv.innerHTML = `<strong>❌ Error</strong><pre>${error.message}</pre>`;
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = "Run Test";
+        }
+      }
+
+      // Load config on page load
+      loadConfig();
+    </script>
+  </body>
+</html>

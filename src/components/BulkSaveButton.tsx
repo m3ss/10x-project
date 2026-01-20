@@ -31,12 +31,10 @@ export const BulkSaveButton = memo(function BulkSaveButton({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Info section */}
         <div className="space-y-1">
-          <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-            Zapisz fiszki do bazy danych
-          </h3>
+          <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Zapisz fiszki do bazy danych</h3>
           <p className="text-xs text-neutral-600 dark:text-neutral-400">
-            Wszystkich: <span className="font-semibold">{flashcards.length}</span> | 
-            Zaakceptowanych: <span className="font-semibold text-green-600 dark:text-green-400">{acceptedFlashcards.length}</span>
+            Wszystkich: <span className="font-semibold">{flashcards.length}</span> | Zaakceptowanych:{" "}
+            <span className="font-semibold text-green-600 dark:text-green-400">{acceptedFlashcards.length}</span>
           </p>
         </div>
 
@@ -51,20 +49,8 @@ export const BulkSaveButton = memo(function BulkSaveButton({
           >
             {isSaving ? (
               <>
-                <svg
-                  className="mr-2 h-4 w-4 animate-spin"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
+                <svg className="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path
                     className="opacity-75"
                     fill="currentColor"
@@ -75,13 +61,7 @@ export const BulkSaveButton = memo(function BulkSaveButton({
               </>
             ) : (
               <>
-                <svg
-                  className="mr-2 h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
+                <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -103,20 +83,8 @@ export const BulkSaveButton = memo(function BulkSaveButton({
           >
             {isSaving ? (
               <>
-                <svg
-                  className="mr-2 h-4 w-4 animate-spin"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
+                <svg className="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path
                     className="opacity-75"
                     fill="currentColor"
@@ -127,19 +95,8 @@ export const BulkSaveButton = memo(function BulkSaveButton({
               </>
             ) : (
               <>
-                <svg
-                  className="mr-2 h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
+                <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 Zapisz zaakceptowane ({acceptedFlashcards.length})
               </>

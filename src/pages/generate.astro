@@ -1,8 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { FlashcardGenerationView } from "../components/FlashcardGenerationView";
+import { ThemeToggle } from "../components/ThemeToggle";
 ---
 
 <Layout title="Generowanie Fiszek">
+  <ThemeToggle client:load />
   <FlashcardGenerationView client:load />
 </Layout>

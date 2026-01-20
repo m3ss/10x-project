@@ -21,6 +21,7 @@ npx supabase status
 ```
 
 Expected output should show:
+
 - API URL: `http://127.0.0.1:15431`
 - DB URL: `postgresql://postgres:postgres@127.0.0.1:15432/postgres`
 - Studio URL: `http://127.0.0.1:15434`
@@ -28,6 +29,7 @@ Expected output should show:
 ### 3. Environment Setup
 
 Ensure `.env` file contains:
+
 ```
 SUPABASE_URL=http://127.0.0.1:15431
 SUPABASE_KEY=<your-anon-key-from-supabase-status>
@@ -38,6 +40,7 @@ SUPABASE_KEY=<your-anon-key-from-supabase-status>
 ## Test Scenario 1: Valid Request (Minimum Length)
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:4321/api/generations \
   -H "Content-Type: application/json" \
@@ -57,6 +60,7 @@ EOF
 Create a text file with exactly 10000 characters for testing.
 
 **Request:**
+
 ```bash
 # Generate 10000 character text
 python3 << 'EOF'
@@ -74,6 +78,7 @@ EOF | curl -X POST http://localhost:4321/api/generations \
 ## Test Scenario 3: Invalid Request - Text Too Short
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:4321/api/generations \
   -H "Content-Type: application/json" \
@@ -83,6 +88,7 @@ curl -X POST http://localhost:4321/api/generations \
 ```
 
 **Expected Response:** 400 Bad Request
+
 ```json
 {
   "error": "Validation Error",
@@ -101,6 +107,7 @@ curl -X POST http://localhost:4321/api/generations \
 ## Test Scenario 4: Invalid Request - Text Too Long
 
 **Request:**
+
 ```bash
 # Generate 10001 character text
 python3 << 'EOF'
@@ -112,6 +119,7 @@ EOF | curl -X POST http://localhost:4321/api/generations \
 ```
 
 **Expected Response:** 400 Bad Request
+
 ```json
 {
   "error": "Validation Error",
@@ -130,6 +138,7 @@ EOF | curl -X POST http://localhost:4321/api/generations \
 ## Test Scenario 5: Invalid Request - Malformed JSON
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:4321/api/generations \
   -H "Content-Type: application/json" \
@@ -137,6 +146,7 @@ curl -X POST http://localhost:4321/api/generations \
 ```
 
 **Expected Response:** 400 Bad Request
+
 ```json
 {
   "error": "Bad Request",
@@ -149,6 +159,7 @@ curl -X POST http://localhost:4321/api/generations \
 ## Test Scenario 6: Invalid Request - Missing Field
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:4321/api/generations \
   -H "Content-Type: application/json" \
@@ -156,6 +167,7 @@ curl -X POST http://localhost:4321/api/generations \
 ```
 
 **Expected Response:** 400 Bad Request
+
 ```json
 {
   "error": "Validation Error",
@@ -205,43 +217,43 @@ SELECT * FROM generation_error_logs ORDER BY created_at DESC LIMIT 10;
 
 ```javascript
 // test-generations-endpoint.js
-const BASE_URL = 'http://localhost:4321';
+const BASE_URL = "http://localhost:4321";
 
 async function testEndpoint(name, sourceText, expectedStatus) {
   console.log(`\nTest: ${name}`);
-  
+
   try {
     const response = await fetch(`${BASE_URL}/api/generations`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ source_text: sourceText })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ source_text: sourceText }),
     });
-    
+
     const data = await response.json();
-    
+
     console.log(`Status: ${response.status} (expected: ${expectedStatus})`);
-    console.log('Response:', JSON.stringify(data, null, 2));
-    
+    console.log("Response:", JSON.stringify(data, null, 2));
+
     if (response.status === expectedStatus) {
-      console.log('✅ PASS');
+      console.log("✅ PASS");
     } else {
-      console.log('❌ FAIL');
+      console.log("❌ FAIL");
     }
   } catch (error) {
-    console.error('Error:', error.message);
-    console.log('❌ FAIL');
+    console.error("Error:", error.message);
+    console.log("❌ FAIL");
   }
 }
 
 async function runTests() {
   // Valid requests
-  await testEndpoint('Valid - Minimum length', 'a'.repeat(1000), 201);
-  await testEndpoint('Valid - Maximum length', 'a'.repeat(10000), 201);
-  await testEndpoint('Valid - Medium length', 'a'.repeat(5000), 201);
-  
+  await testEndpoint("Valid - Minimum length", "a".repeat(1000), 201);
+  await testEndpoint("Valid - Maximum length", "a".repeat(10000), 201);
+  await testEndpoint("Valid - Medium length", "a".repeat(5000), 201);
+
   // Invalid requests
-  await testEndpoint('Invalid - Too short', 'short text', 400);
-  await testEndpoint('Invalid - Too long', 'a'.repeat(10001), 400);
+  await testEndpoint("Invalid - Too short", "short text", 400);
+  await testEndpoint("Invalid - Too long", "a".repeat(10001), 400);
 }
 
 runTests();

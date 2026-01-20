@@ -5,11 +5,13 @@ This guide will help you quickly test the generations endpoint.
 ## Prerequisites
 
 1. Make sure the development server is running:
+
 ```bash
 npm run dev
 ```
 
 2. Ensure Supabase is configured and running:
+
 ```bash
 # Start Supabase local instance (if not already running)
 npx supabase start
@@ -19,12 +21,14 @@ npx supabase status
 ```
 
 Expected Supabase ports (from `supabase/config.toml`):
+
 - API URL: `http://127.0.0.1:15431`
 - DB URL: `postgresql://postgres:postgres@127.0.0.1:15432/postgres`
 - Studio URL: `http://127.0.0.1:15434`
 - Inbucket URL: `http://127.0.0.1:15435`
 
 3. Verify environment variables in `.env`:
+
 ```bash
 SUPABASE_URL=http://127.0.0.1:15431
 SUPABASE_KEY=your-anon-key-from-supabase-status
@@ -73,35 +77,35 @@ curl -X POST http://localhost:4321/api/generations \
 Create a file `test-api.js`:
 
 ```javascript
-const BASE_URL = 'http://localhost:4321';
+const BASE_URL = "http://localhost:4321";
 
 async function testGeneration() {
-  const sourceText = 'a'.repeat(5000); // 5000 characters
-  
-  console.log('Testing POST /api/generations...');
+  const sourceText = "a".repeat(5000); // 5000 characters
+
+  console.log("Testing POST /api/generations...");
   console.log(`Source text length: ${sourceText.length}`);
-  
+
   try {
     const response = await fetch(`${BASE_URL}/api/generations`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ source_text: sourceText })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ source_text: sourceText }),
     });
-    
+
     const data = await response.json();
-    
+
     console.log(`\nStatus: ${response.status}`);
-    console.log('\nResponse:');
+    console.log("\nResponse:");
     console.log(JSON.stringify(data, null, 2));
-    
+
     if (response.ok) {
       console.log(`\n✅ Success! Generated ${data.generated_count} flashcards`);
       console.log(`Generation ID: ${data.generation_id}`);
     } else {
-      console.log('\n❌ Error occurred');
+      console.log("\n❌ Error occurred");
     }
   } catch (error) {
-    console.error('Request failed:', error.message);
+    console.error("Request failed:", error.message);
   }
 }
 
@@ -109,6 +113,7 @@ testGeneration();
 ```
 
 Run with:
+
 ```bash
 node test-api.js
 ```
@@ -119,7 +124,7 @@ After a successful request, check the database:
 
 ```sql
 -- View recent generations
-SELECT 
+SELECT
   id,
   user_id,
   model,
@@ -132,7 +137,7 @@ ORDER BY created_at DESC
 LIMIT 5;
 
 -- View any errors
-SELECT 
+SELECT
   id,
   error_code,
   error_message,
@@ -146,6 +151,7 @@ LIMIT 5;
 ## Expected Response Format
 
 **Success (201):**
+
 ```json
 {
   "generation_id": 123,
@@ -166,6 +172,7 @@ LIMIT 5;
 ```
 
 **Error (400):**
+
 ```json
 {
   "error": "Validation Error",
@@ -182,10 +189,13 @@ LIMIT 5;
 ## Common Issues
 
 ### Issue: 404 Not Found
+
 **Solution:** Make sure the dev server is running (`npm run dev`)
 
 ### Issue: Database errors
-**Solution:** 
+
+**Solution:**
+
 1. Check Supabase connection in `.env` file
 2. Ensure Supabase is running: `npx supabase status`
 3. If not running, start it: `npx supabase start`
@@ -195,6 +205,7 @@ LIMIT 5;
    - Studio: 15434
 
 ### Issue: TypeScript errors
+
 **Solution:** Run `npx tsc --noEmit` to check for type errors
 
 ## Performance Testing

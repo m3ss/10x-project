@@ -8,12 +8,12 @@ This project uses **Supabase** as the backend database and authentication servic
 
 The following ports are configured in `supabase/config.toml`:
 
-| Service | Port | URL | Purpose |
-|---------|------|-----|---------|
-| API | 15431 | http://127.0.0.1:15431 | Supabase REST API |
+| Service  | Port  | URL                                                     | Purpose             |
+| -------- | ----- | ------------------------------------------------------- | ------------------- |
+| API      | 15431 | http://127.0.0.1:15431                                  | Supabase REST API   |
 | Database | 15432 | postgresql://postgres:postgres@127.0.0.1:15432/postgres | PostgreSQL database |
-| Studio | 15434 | http://127.0.0.1:15434 | Admin interface |
-| Inbucket | 15435 | http://127.0.0.1:15435 | Email testing |
+| Studio   | 15434 | http://127.0.0.1:15434                                  | Admin interface     |
+| Inbucket | 15435 | http://127.0.0.1:15435                                  | Email testing       |
 
 **Note:** These are **non-standard** ports (default Supabase uses 54321-54327 range). The custom ports were chosen to avoid conflicts with other services.
 
@@ -46,6 +46,7 @@ npx supabase status
 ```
 
 Output will show:
+
 ```
 API URL: http://127.0.0.1:15431
 DB URL: postgresql://postgres:postgres@127.0.0.1:15432/postgres
@@ -66,6 +67,7 @@ SUPABASE_KEY=<copy-anon-key-from-supabase-status>
 ### 5. Access Supabase Studio
 
 Open http://127.0.0.1:15434 in your browser to:
+
 - View database tables
 - Run SQL queries
 - Manage users
@@ -103,6 +105,7 @@ npx supabase logs
 ## Database Schema
 
 Current migrations:
+
 - `20260115200500_create_flashcards_schema.sql` - Creates flashcards, generations, and error log tables
 
 View migrations in: `supabase/migrations/`
@@ -114,6 +117,7 @@ View migrations in: `supabase/migrations/`
 **Error:** `Error: Port 15431 is already in use`
 
 **Solution:**
+
 ```bash
 # Stop Supabase
 npx supabase stop
@@ -135,6 +139,7 @@ npx supabase start
 **Error:** `Error connecting to database`
 
 **Solutions:**
+
 1. Check if Supabase is running: `npx supabase status`
 2. Verify `.env` file has correct `SUPABASE_URL` and `SUPABASE_KEY`
 3. Restart Supabase: `npx supabase restart`
@@ -145,6 +150,7 @@ npx supabase start
 **Error:** `relation "generations" does not exist`
 
 **Solution:**
+
 ```bash
 # Reset database and re-apply migrations
 npx supabase db reset
@@ -156,6 +162,7 @@ npx supabase migration up
 ### Issue: anon key expired or invalid
 
 **Solution:**
+
 ```bash
 # Get fresh keys
 npx supabase status
@@ -166,12 +173,14 @@ npx supabase status
 ## Production vs Local
 
 ### Local Development
+
 - Uses ports 15431-15435
 - Data is stored in Docker volumes
 - `DEFAULT_USER_ID` is used (no auth)
 - Studio available at http://127.0.0.1:15434
 
 ### Production (Future)
+
 - Uses Supabase Cloud
 - Real authentication enabled
 - Different URL and keys
@@ -180,12 +189,14 @@ npx supabase status
 ## Security Notes
 
 ### Local Development
+
 - Default credentials: `postgres/postgres`
 - anon key is for testing only
 - service_role key has full access
 - **Never commit `.env` file**
 
 ### Production (When deployed)
+
 - Use environment-specific keys
 - Enable Row Level Security (RLS)
 - Rotate keys regularly
@@ -194,29 +205,30 @@ npx supabase status
 ## Database Access
 
 ### Via Supabase Studio
+
 1. Open http://127.0.0.1:15434
 2. Navigate to "Table Editor"
 3. Select table (e.g., "generations")
 4. View/edit data
 
 ### Via psql
+
 ```bash
 psql postgresql://postgres:postgres@127.0.0.1:15432/postgres
 ```
 
 ### Via Supabase Client (in code)
-```typescript
-import { supabaseClient } from './db/supabase.client';
 
-const { data, error } = await supabaseClient
-  .from('generations')
-  .select('*')
-  .limit(10);
+```typescript
+import { supabaseClient } from "./db/supabase.client";
+
+const { data, error } = await supabaseClient.from("generations").select("*").limit(10);
 ```
 
 ## Backup and Restore
 
 ### Backup
+
 ```bash
 # Backup schema and data
 npx supabase db dump -f backup.sql
@@ -229,6 +241,7 @@ npx supabase db dump --data-only -f data.sql
 ```
 
 ### Restore
+
 ```bash
 # Restore from backup
 psql postgresql://postgres:postgres@127.0.0.1:15432/postgres < backup.sql

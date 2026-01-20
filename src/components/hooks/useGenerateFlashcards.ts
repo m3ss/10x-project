@@ -1,9 +1,5 @@
 import { useState } from "react";
-import type {
-  GenerateFlashcardsCommand,
-  GenerationCreateResponseDto,
-  FlashcardProposalViewModel,
-} from "@/types";
+import type { GenerateFlashcardsCommand, GenerationCreateResponseDto, FlashcardProposalViewModel } from "@/types";
 
 interface UseGenerateFlashcardsReturn {
   isLoading: boolean;
@@ -59,21 +55,18 @@ export function useGenerateFlashcards(): UseGenerateFlashcardsReturn {
       const data: GenerationCreateResponseDto = await response.json();
 
       // Przekształcenie FlashcardProposalDto na FlashcardProposalViewModel
-      const viewModels: FlashcardProposalViewModel[] = data.flashcards_proposals.map(
-        (proposal) => ({
-          front: proposal.front,
-          back: proposal.back,
-          source: proposal.source,
-          accepted: false,
-          edited: false,
-        })
-      );
+      const viewModels: FlashcardProposalViewModel[] = data.flashcards_proposals.map((proposal) => ({
+        front: proposal.front,
+        back: proposal.back,
+        source: proposal.source,
+        accepted: false,
+        edited: false,
+      }));
 
       setFlashcards(viewModels);
       setGenerationId(data.generation_id);
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Nie udało się wygenerować fiszek.";
+      const errorMessage = err instanceof Error ? err.message : "Nie udało się wygenerować fiszek.";
       setError(errorMessage);
     } finally {
       setIsLoading(false);

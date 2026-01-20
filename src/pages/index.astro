@@ -1,8 +1,10 @@
 ---
 import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
+import { ThemeToggle } from "../components/ThemeToggle";
 ---
 
 <Layout>
+  <ThemeToggle client:load />
   <Welcome />
 </Layout>

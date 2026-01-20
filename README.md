@@ -77,6 +77,7 @@ npx supabase status
 4. Configure environment variables:
 
 Create `.env` file with values from `npx supabase status`:
+
 ```bash
 SUPABASE_URL=http://127.0.0.1:15431
 SUPABASE_KEY=<your-anon-key>

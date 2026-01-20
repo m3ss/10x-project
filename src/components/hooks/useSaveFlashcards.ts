@@ -1,19 +1,12 @@
 import { useState } from "react";
-import type {
-  FlashcardsCreateCommand,
-  FlashcardCreateDto,
-  FlashcardProposalViewModel,
-} from "@/types";
+import type { FlashcardsCreateCommand, FlashcardCreateDto, FlashcardProposalViewModel } from "@/types";
 
 interface UseSaveFlashcardsReturn {
   isSaving: boolean;
   saveError: string | null;
   saveSuccess: boolean;
   savedCount: number;
-  saveFlashcards: (
-    flashcards: FlashcardProposalViewModel[],
-    generationId: number
-  ) => Promise<boolean>;
+  saveFlashcards: (flashcards: FlashcardProposalViewModel[], generationId: number) => Promise<boolean>;
   resetSaveState: () => void;
 }
 
@@ -39,10 +32,7 @@ export function useSaveFlashcards(): UseSaveFlashcardsReturn {
     return true;
   };
 
-  const saveFlashcards = async (
-    flashcards: FlashcardProposalViewModel[],
-    generationId: number
-  ): Promise<boolean> => {
+  const saveFlashcards = async (flashcards: FlashcardProposalViewModel[], generationId: number): Promise<boolean> => {
     // Walidacja wejściowa
     if (flashcards.length === 0) {
       setSaveError("Brak fiszek do zapisu.");
@@ -101,13 +91,12 @@ export function useSaveFlashcards(): UseSaveFlashcardsReturn {
       }
 
       const result = await response.json();
-      
+
       setSaveSuccess(true);
       setSavedCount(flashcards.length);
       return true;
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Nie udało się zapisać fiszek.";
+      const errorMessage = err instanceof Error ? err.message : "Nie udało się zapisać fiszek.";
       setSaveError(errorMessage);
       return false;
     } finally {

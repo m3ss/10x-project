@@ -23,10 +23,7 @@ export const TextInputArea = memo(function TextInputArea({
 
   return (
     <div className="space-y-2">
-      <label
-        htmlFor={textareaId}
-        className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-      >
+      <label htmlFor={textareaId} className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
         Tekst źródłowy
       </label>
       <textarea

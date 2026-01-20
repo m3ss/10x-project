@@ -62,12 +62,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
         <div className="flex items-center gap-2">
           {flashcard.accepted && (
             <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/50 dark:text-green-300">
-              <svg
-                className="h-3 w-3"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
+              <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                 <path
                   fillRule="evenodd"
                   d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -79,12 +74,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
           )}
           {flashcard.edited && (
             <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
-              <svg
-                className="h-3 w-3"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
+              <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
               </svg>
               Edytowana
@@ -100,13 +90,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
               size="sm"
               aria-label={flashcard.accepted ? "Odznacz fiszkę" : "Zatwierdź fiszkę"}
             >
-              <svg
-                className="mr-1.5 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
+              <svg className="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -117,13 +101,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
               {flashcard.accepted ? "Odznacz" : "Zatwierdź"}
             </Button>
             <Button onClick={handleStartEdit} variant="outline" size="sm">
-              <svg
-                className="mr-1.5 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
+              <svg className="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -139,13 +117,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
               size="sm"
               className="text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-950/50"
             >
-              <svg
-                className="mr-1.5 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
+              <svg className="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -164,10 +136,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
         <div className="space-y-4">
           {/* Front input */}
           <div className="space-y-2">
-            <label
-              htmlFor={frontId}
-              className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-            >
+            <label htmlFor={frontId} className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
               Przód fiszki
             </label>
             <textarea
@@ -186,23 +155,17 @@ export const FlashcardListItem = memo(function FlashcardListItem({
             <div
               id={`${frontId}-count`}
               className={`text-xs ${
-                !isFrontValid
-                  ? "text-red-600 dark:text-red-400"
-                  : "text-neutral-500 dark:text-neutral-400"
+                !isFrontValid ? "text-red-600 dark:text-red-400" : "text-neutral-500 dark:text-neutral-400"
               }`}
             >
               {editedFront.length} / {maxFrontLength} znaków
-              {editedFront.length > maxFrontLength &&
-                ` (przekroczono o ${editedFront.length - maxFrontLength})`}
+              {editedFront.length > maxFrontLength && ` (przekroczono o ${editedFront.length - maxFrontLength})`}
             </div>
           </div>
 
           {/* Back input */}
           <div className="space-y-2">
-            <label
-              htmlFor={backId}
-              className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-            >
+            <label htmlFor={backId} className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
               Tył fiszki
             </label>
             <textarea
@@ -221,50 +184,25 @@ export const FlashcardListItem = memo(function FlashcardListItem({
             <div
               id={`${backId}-count`}
               className={`text-xs ${
-                !isBackValid
-                  ? "text-red-600 dark:text-red-400"
-                  : "text-neutral-500 dark:text-neutral-400"
+                !isBackValid ? "text-red-600 dark:text-red-400" : "text-neutral-500 dark:text-neutral-400"
               }`}
             >
               {editedBack.length} / {maxBackLength} znaków
-              {editedBack.length > maxBackLength &&
-                ` (przekroczono o ${editedBack.length - maxBackLength})`}
+              {editedBack.length > maxBackLength && ` (przekroczono o ${editedBack.length - maxBackLength})`}
             </div>
           </div>
 
           {/* Edit actions */}
           <div className="flex gap-2 pt-2">
             <Button onClick={handleSaveEdit} disabled={!isEditValid} size="sm">
-              <svg
-                className="mr-1.5 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
+              <svg className="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
               Zapisz zmiany
             </Button>
             <Button onClick={handleCancelEdit} variant="outline" size="sm">
-              <svg
-                className="mr-1.5 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg className="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
               Anuluj
             </Button>
@@ -278,9 +216,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
             <div className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               Przód
             </div>
-            <p className="text-sm text-neutral-900 dark:text-neutral-100">
-              {flashcard.front}
-            </p>
+            <p className="text-sm text-neutral-900 dark:text-neutral-100">{flashcard.front}</p>
           </div>
 
           {/* Back display */}
@@ -288,9 +224,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
             <div className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               Tył
             </div>
-            <p className="text-sm text-neutral-900 dark:text-neutral-100">
-              {flashcard.back}
-            </p>
+            <p className="text-sm text-neutral-900 dark:text-neutral-100">{flashcard.back}</p>
           </div>
         </div>
       )}

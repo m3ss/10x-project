@@ -9,11 +9,13 @@ Initiates the AI flashcard generation process based on user-provided source text
 **Endpoint:** `POST /api/generations`
 
 **Headers:**
+
 ```
 Content-Type: application/json
 ```
 
 **Body:**
+
 ```json
 {
   "source_text": "string (1000-10000 characters)"
@@ -21,6 +23,7 @@ Content-Type: application/json
 ```
 
 **Validation Rules:**
+
 - `source_text` must be a string
 - Minimum length: 1000 characters
 - Maximum length: 10000 characters
@@ -28,6 +31,7 @@ Content-Type: application/json
 ### Response
 
 **Success (201 Created):**
+
 ```json
 {
   "generation_id": 123,
@@ -45,6 +49,7 @@ Content-Type: application/json
 **Error Responses:**
 
 **400 Bad Request** - Invalid input data:
+
 ```json
 {
   "error": "Validation Error",
@@ -59,6 +64,7 @@ Content-Type: application/json
 ```
 
 **400 Bad Request** - Invalid JSON:
+
 ```json
 {
   "error": "Bad Request",
@@ -67,6 +73,7 @@ Content-Type: application/json
 ```
 
 **500 Internal Server Error** - Server error:
+
 ```json
 {
   "error": "Internal Server Error",
@@ -77,6 +84,7 @@ Content-Type: application/json
 ### Example Usage
 
 #### cURL
+
 ```bash
 curl -X POST http://localhost:4321/api/generations \
   -H "Content-Type: application/json" \
@@ -86,28 +94,30 @@ curl -X POST http://localhost:4321/api/generations \
 ```
 
 #### JavaScript (fetch)
+
 ```javascript
-const response = await fetch('/api/generations', {
-  method: 'POST',
+const response = await fetch("/api/generations", {
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    source_text: 'Your text content here (1000-10000 characters)...'
-  })
+    source_text: "Your text content here (1000-10000 characters)...",
+  }),
 });
 
 const data = await response.json();
 
 if (response.ok) {
-  console.log('Generation ID:', data.generation_id);
-  console.log('Generated flashcards:', data.flashcards_proposals);
+  console.log("Generation ID:", data.generation_id);
+  console.log("Generated flashcards:", data.flashcards_proposals);
 } else {
-  console.error('Error:', data.error, data.message);
+  console.error("Error:", data.error, data.message);
 }
 ```
 
 #### Python (requests)
+
 ```python
 import requests
 
@@ -137,12 +147,14 @@ else:
 ### Local Development Setup
 
 **Supabase Configuration** (from `supabase/config.toml`):
+
 - API Port: 15431
 - Database Port: 15432
 - Studio Port: 15434 (admin interface)
 - Inbucket Port: 15435 (email testing)
 
 **Required Commands:**
+
 ```bash
 # Start Supabase local instance
 npx supabase start
@@ -158,6 +170,7 @@ npm run dev
 ```
 
 **Environment Variables:**
+
 ```bash
 SUPABASE_URL=http://127.0.0.1:15431
 SUPABASE_KEY=<anon-key-from-supabase-status>

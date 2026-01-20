@@ -16,6 +16,9 @@ interface ImportMetaEnv {
   readonly SUPABASE_KEY: string;
   readonly SUPABASE_SERVICE_KEY: string;
   readonly OPENROUTER_API_KEY: string;
+  readonly OPENROUTER_MODEL?: string;
+  readonly OPENROUTER_TEMPERATURE?: string;
+  readonly OPENROUTER_TOP_P?: string;
   readonly AI_SERVICE_TIMEOUT?: string;
   readonly AI_SERVICE_PROVIDER?: string;
   readonly OPENAI_API_KEY?: string;

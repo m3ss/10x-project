@@ -9,38 +9,40 @@ export const prerender = false;
 /**
  * Validation schema for individual flashcard
  */
-const flashcardCreateSchema = z.object({
-  front: z
-    .string()
-    .min(1, "Front cannot be empty")
-    .max(200, "Front cannot exceed 200 characters")
-    .transform((val) => val.trim()),
-  back: z
-    .string()
-    .min(1, "Back cannot be empty")
-    .max(500, "Back cannot exceed 500 characters")
-    .transform((val) => val.trim()),
-  source: z.enum(["ai-full", "ai-edited", "manual"], {
-    errorMap: () => ({ message: "Source must be one of: ai-full, ai-edited, manual" }),
-  }),
-  generation_id: z.number().int().positive().nullable(),
-}).refine(
-  (data) => {
-    // For AI-generated flashcards, generation_id is required
-    if ((data.source === "ai-full" || data.source === "ai-edited") && !data.generation_id) {
-      return false;
+const flashcardCreateSchema = z
+  .object({
+    front: z
+      .string()
+      .min(1, "Front cannot be empty")
+      .max(200, "Front cannot exceed 200 characters")
+      .transform((val) => val.trim()),
+    back: z
+      .string()
+      .min(1, "Back cannot be empty")
+      .max(500, "Back cannot exceed 500 characters")
+      .transform((val) => val.trim()),
+    source: z.enum(["ai-full", "ai-edited", "manual"], {
+      errorMap: () => ({ message: "Source must be one of: ai-full, ai-edited, manual" }),
+    }),
+    generation_id: z.number().int().positive().nullable(),
+  })
+  .refine(
+    (data) => {
+      // For AI-generated flashcards, generation_id is required
+      if ((data.source === "ai-full" || data.source === "ai-edited") && !data.generation_id) {
+        return false;
+      }
+      // For manual flashcards, generation_id must be null
+      if (data.source === "manual" && data.generation_id !== null) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "generation_id is required for AI-generated flashcards and must be null for manual flashcards",
+      path: ["generation_id"],
     }
-    // For manual flashcards, generation_id must be null
-    if (data.source === "manual" && data.generation_id !== null) {
-      return false;
-    }
-    return true;
-  },
-  {
-    message: "generation_id is required for AI-generated flashcards and must be null for manual flashcards",
-    path: ["generation_id"],
-  }
-);
+  );
 
 /**
  * Validation schema for POST /flashcards endpoint
