@@ -130,3 +130,59 @@ export interface FlashcardProposalViewModel {
   accepted: boolean;
   edited: boolean;
 }
+
+// ------------------------------------------------------------------------------------------------
+// 12. Authentication Types
+//     Types for authentication-related functionality
+// ------------------------------------------------------------------------------------------------
+
+export interface AuthUser {
+  id: string;
+  email: string;
+}
+
+export interface LoginFormProps {
+  redirectTo?: string;
+  message?: string | null;
+}
+
+export interface RegisterFormProps {}
+
+export interface ResetPasswordFormProps {
+  mode: 'request' | 'update';
+  accessToken?: string;
+}
+
+export interface AuthenticatedNavbarProps {
+  user: AuthUser;
+}
+
+export interface AccountSettingsProps {
+  user: AuthUser;
+}
+
+export type AuthErrorCode =
+  | 'INVALID_CREDENTIALS'
+  | 'EMAIL_ALREADY_EXISTS'
+  | 'WEAK_PASSWORD'
+  | 'INVALID_EMAIL'
+  | 'EMAIL_NOT_VERIFIED'
+  | 'INVALID_RESET_TOKEN'
+  | 'NETWORK_ERROR'
+  | 'SERVER_ERROR'
+  | 'UNAUTHORIZED'
+  | 'INVALID_CONFIRMATION'
+  | 'ACCOUNT_DELETION_FAILED';
+
+export interface AuthError {
+  code: AuthErrorCode;
+  message: string;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  error?: AuthError;
+  redirectTo?: string;
+  message?: string;
+  user?: AuthUser;
+}

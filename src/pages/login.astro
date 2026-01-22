@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { LoginForm } from "../components/LoginForm";
+import { ThemeToggle } from "../components/ThemeToggle";
+
+// Obsługa query params
+const url = new URL(Astro.request.url);
+const redirectTo = url.searchParams.get('redirect') || '/generate';
+const verified = url.searchParams.get('verified') === 'true';
+const messageParam = url.searchParams.get('message');
+
+let message: string | null = null;
+if (verified) {
+  message = 'Email zweryfikowany pomyślnie. Możesz się teraz zalogować.';
+} else if (messageParam) {
+  message = messageParam;
+}
+---
+
+<Layout title="Logowanie">
+  <ThemeToggle client:load />
+  <LoginForm client:load redirectTo={redirectTo} message={message} />
+</Layout>
