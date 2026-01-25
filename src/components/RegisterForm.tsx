@@ -12,29 +12,10 @@ export function RegisterForm({}: RegisterFormProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const isValidEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-  };
-
-  const getPasswordStrengthErrors = (password: string): string[] => {
-    const errors: string[] = [];
-
-    if (password.length < 8) {
-      errors.push("Hasło musi mieć minimum 8 znaków");
-    }
-
-    if (!/\d/.test(password)) {
-      errors.push("Hasło musi zawierać co najmniej jedną cyfrę");
-    }
-
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-      errors.push("Hasło musi zawierać co najmniej jeden znak specjalny");
-    }
-
-    return errors;
   };
 
   const validateForm = (): boolean => {
@@ -48,14 +29,28 @@ export function RegisterForm({}: RegisterFormProps) {
       return false;
     }
 
-    const passwordErrors = getPasswordStrengthErrors(password);
-    if (passwordErrors.length > 0) {
-      setError(passwordErrors.join(". "));
+    if (!password) {
+      setError("Hasło jest wymagane");
+      return false;
+    }
+
+    if (password.length < 8) {
+      setError("Hasło musi mieć minimum 8 znaków");
+      return false;
+    }
+
+    if (!/\d/.test(password)) {
+      setError("Hasło musi zawierać co najmniej jedną cyfrę");
+      return false;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setError("Hasło musi zawierać co najmniej jeden znak specjalny");
       return false;
     }
 
     if (password !== confirmPassword) {
-      setError("Hasła muszą być identyczne");
+      setError("Hasła nie są identyczne");
       return false;
     }
 
@@ -84,12 +79,10 @@ export function RegisterForm({}: RegisterFormProps) {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setRegistrationSuccess(true);
-        // W MVP użytkownik jest automatycznie zalogowany
-        setTimeout(() => {
-          window.location.href = data.redirectTo || "/generate";
-        }, 2000);
+        // Automatically redirects after successful registration
+        window.location.href = data.redirectTo || "/generate";
       } else {
+        // Use error.message from the API format
         setError(data.error?.message || "Wystąpił błąd podczas rejestracji");
       }
     } catch (err) {
@@ -99,31 +92,30 @@ export function RegisterForm({}: RegisterFormProps) {
     }
   };
 
-  if (registrationSuccess) {
-    return (
-      <div className="container mx-auto max-w-md px-4 py-8">
-        <Card>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Rejestracja zakończona!</CardTitle>
-            <CardDescription>Konto zostało utworzone pomyślnie</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ErrorNotification
-              message="Witaj w 10x-cards! Za chwilę zostaniesz przekierowany do aplikacji."
-              type="info"
-            />
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Real-time password strength indicator
+  const getPasswordStrength = (): { text: string; color: string } => {
+    if (!password) return { text: "", color: "" };
+
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/\d/.test(password)) strength++;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+    if (password.length >= 12) strength++;
+
+    if (strength <= 1) return { text: "Słabe", color: "text-red-600" };
+    if (strength === 2) return { text: "Średnie", color: "text-yellow-600" };
+    if (strength === 3) return { text: "Dobre", color: "text-blue-600" };
+    return { text: "Bardzo dobre", color: "text-green-600" };
+  };
+
+  const passwordStrength = getPasswordStrength();
 
   return (
     <div className="container mx-auto max-w-md px-4 py-8">
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Rejestracja</CardTitle>
-          <CardDescription>Utwórz nowe konto, aby rozpocząć naukę z fiszkami</CardDescription>
+          <CardDescription>Utwórz konto aby korzystać z 10x-cards</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
@@ -141,7 +133,9 @@ export function RegisterForm({}: RegisterFormProps) {
                 autoComplete="email"
                 required
               />
-              <p className="text-xs text-muted-foreground">Użyjemy tego adresu do weryfikacji konta</p>
+              <p className="text-xs text-muted-foreground">
+                Użyjemy tego adresu do weryfikacji konta
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -156,6 +150,11 @@ export function RegisterForm({}: RegisterFormProps) {
                 autoComplete="new-password"
                 required
               />
+              {password && (
+                <p className={`text-xs ${passwordStrength.color}`}>
+                  Siła hasła: {passwordStrength.text}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground">
                 Minimum 8 znaków, zawierające cyfrę i znak specjalny
               </p>

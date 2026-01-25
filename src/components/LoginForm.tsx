@@ -65,6 +65,7 @@ export function LoginForm({ redirectTo = "/generate", message = null }: LoginFor
       if (response.ok && data.success) {
         window.location.href = data.redirectTo || redirectTo;
       } else {
+        // Use error.message from the new API format
         setError(data.error?.message || "Wystąpił błąd podczas logowania");
       }
     } catch (err) {

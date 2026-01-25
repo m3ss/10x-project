@@ -2,6 +2,17 @@
 import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
 import { ThemeToggle } from "../components/ThemeToggle";
+
+// Redirect logged in users to /generate
+const user = Astro.locals.user;
+
+if (user) {
+  return Astro.redirect('/generate');
+}
+
+// Check for message in query params (e.g., after account deletion)
+const url = new URL(Astro.request.url);
+const message = url.searchParams.get('message');
 ---
 
 <Layout>

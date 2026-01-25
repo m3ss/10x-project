@@ -2,7 +2,6 @@ import type { APIRoute } from "astro";
 import { z } from "zod";
 import type { GenerateFlashcardsCommand, GenerationCreateResponseDto } from "../../types";
 import { GenerationService } from "../../lib/generation.service";
-import { DEFAULT_USER_ID, supabaseServiceClient } from "../../db/supabase.client";
 
 export const prerender = false;
 
@@ -21,6 +20,7 @@ const generateFlashcardsSchema = z.object({
  * POST /api/generations
  *
  * Initiates the AI flashcard generation process based on user-provided source text.
+ * Requires authentication.
  *
  * @param {string} source_text - Input text (1000-10000 characters)
  * @returns {GenerationCreateResponseDto} Generated flashcard proposals with metadata
@@ -28,11 +28,26 @@ const generateFlashcardsSchema = z.object({
  * Status Codes:
  * - 201: Generation created successfully
  * - 400: Invalid input data (e.g., source_text length out of range)
+ * - 401: Unauthorized (user not authenticated)
  * - 500: Server error (AI service failure or database error)
  */
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    // Use service role client to bypass RLS (for development without auth)
+    // Auth check
+    if (!locals.user) {
+      return new Response(
+        JSON.stringify({
+          error: "Unauthorized",
+          message: "Musisz być zalogowany aby generować fiszki",
+        }),
+        {
+          status: 401,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const userId = locals.user.id;
 
     // Parse and validate request body
     let body: unknown;
@@ -75,13 +90,13 @@ export const POST: APIRoute = async ({ request }) => {
 
     const command: GenerateFlashcardsCommand = validationResult.data;
 
-    // Initialize generation service with service role client (bypasses RLS)
-    const generationService = new GenerationService(supabaseServiceClient);
+    // Initialize generation service with authenticated user's supabase client
+    const generationService = new GenerationService(locals.supabase);
 
-    // Call generation service with DEFAULT_USER_ID (auth will be implemented later)
+    // Call generation service with authenticated user's ID
     const result: GenerationCreateResponseDto = await generationService.generateFlashcards(
       command.source_text,
-      DEFAULT_USER_ID
+      userId
     );
 
     // Return successful response with 201 status

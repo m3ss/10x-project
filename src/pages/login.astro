@@ -3,6 +3,13 @@ import Layout from "../layouts/Layout.astro";
 import { LoginForm } from "../components/LoginForm";
 import { ThemeToggle } from "../components/ThemeToggle";
 
+// Auth guard - redirect logged in users to /generate
+const user = Astro.locals.user;
+
+if (user) {
+  return Astro.redirect('/generate');
+}
+
 // Obsługa query params
 const url = new URL(Astro.request.url);
 const redirectTo = url.searchParams.get('redirect') || '/generate';

@@ -1,17 +1,23 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { AuthenticatedNavbar } from "../components/AuthenticatedNavbar";
 import { AccountSettings } from "../components/AccountSettings";
+import { AuthenticatedNavbar } from "../components/AuthenticatedNavbar";
 
-// Mock user data - w rzeczywistej implementacji będzie z Astro.locals.user
-// Tutaj zostawiamy placeholder, ponieważ nie implementujemy backendu
-const mockUser = {
-  id: "00000000-0000-0000-0000-000000000000",
-  email: "user@example.com"
+// Auth guard - middleware already handles redirect to /login if not authenticated
+const user = Astro.locals.user;
+
+if (!user) {
+  return Astro.redirect('/login?redirect=/settings');
+}
+
+// Prepare user object for components
+const authUser = {
+  id: user.id,
+  email: user.email ?? '',
 };
 ---
 
 <Layout title="Ustawienia konta">
-  <AuthenticatedNavbar client:load user={mockUser} />
-  <AccountSettings client:load user={mockUser} />
+  <AuthenticatedNavbar client:load user={authUser} />
+  <AccountSettings client:load user={authUser} />
 </Layout>

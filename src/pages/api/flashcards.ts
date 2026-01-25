@@ -2,7 +2,6 @@ import type { APIRoute } from "astro";
 import { z } from "zod";
 import type { FlashcardsCreateCommand, FlashcardDto } from "../../types";
 import { FlashcardService } from "../../lib/flashcard.service";
-import { DEFAULT_USER_ID, supabaseServiceClient } from "../../db/supabase.client";
 
 export const prerender = false;
 
@@ -58,6 +57,7 @@ const flashcardsCreateSchema = z.object({
  * POST /api/flashcards
  *
  * Creates one or more flashcards in the database.
+ * Requires authentication.
  *
  * @param {FlashcardsCreateCommand} body - Array of flashcards to create
  * @returns {FlashcardDto[]} Array of created flashcards with IDs
@@ -65,10 +65,27 @@ const flashcardsCreateSchema = z.object({
  * Status Codes:
  * - 201: Flashcards created successfully
  * - 400: Invalid input data (e.g., validation errors)
+ * - 401: Unauthorized (user not authenticated)
  * - 500: Server error (database error)
  */
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
+    // Auth check
+    if (!locals.user) {
+      return new Response(
+        JSON.stringify({
+          error: "Unauthorized",
+          message: "Musisz być zalogowany aby zapisać fiszki",
+        }),
+        {
+          status: 401,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const userId = locals.user.id;
+
     // Parse request body
     let body: unknown;
     try {
@@ -110,13 +127,13 @@ export const POST: APIRoute = async ({ request }) => {
 
     const command: FlashcardsCreateCommand = validationResult.data;
 
-    // Initialize flashcard service with service role client
-    const flashcardService = new FlashcardService(supabaseServiceClient);
+    // Initialize flashcard service with authenticated user's supabase client
+    const flashcardService = new FlashcardService(locals.supabase);
 
-    // Create flashcards
+    // Create flashcards with authenticated user's ID
     const createdFlashcards: FlashcardDto[] = await flashcardService.createFlashcards(
       command.flashcards,
-      DEFAULT_USER_ID
+      userId
     );
 
     // Return successful response with 201 status

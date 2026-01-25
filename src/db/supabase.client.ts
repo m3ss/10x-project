@@ -1,4 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
+import { createServerClient, type CookieOptionsWithName } from "@supabase/ssr";
+import type { AstroCookies } from "astro";
 
 import type { Database } from "./database.types";
 
@@ -13,4 +15,44 @@ export const supabaseServiceClient = createClient<Database>(supabaseUrl, supabas
 
 export type SupabaseClient = typeof supabaseClient;
 
-export const DEFAULT_USER_ID = "0e0fdd5b-b395-4862-9451-9c7da0e1a895";
+// Cookie options for Supabase SSR
+export const cookieOptions: CookieOptionsWithName = {
+  path: "/",
+  secure: true,
+  httpOnly: true,
+  sameSite: "lax",
+};
+
+// Parse cookie header into array of cookie objects
+function parseCookieHeader(cookieHeader: string): { name: string; value: string }[] {
+  return cookieHeader.split(";").map((cookie) => {
+    const [name, ...rest] = cookie.trim().split("=");
+    return { name, value: rest.join("=") };
+  });
+}
+
+// Create Supabase server client with SSR support
+export const createSupabaseServerInstance = (context: {
+  headers: Headers;
+  cookies: AstroCookies;
+}) => {
+  const supabase = createServerClient<Database>(
+    import.meta.env.SUPABASE_URL,
+    import.meta.env.SUPABASE_KEY,
+    {
+      cookieOptions,
+      cookies: {
+        getAll() {
+          return parseCookieHeader(context.headers.get("Cookie") ?? "");
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            context.cookies.set(name, value, options),
+          );
+        },
+      },
+    },
+  );
+
+  return supabase;
+};
