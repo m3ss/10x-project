@@ -64,12 +64,15 @@ export interface FlashcardsCreateCommand {
 //    For the PUT /flashcards/{id} endpoint to update existing flashcards.
 //    This model is a partial update of flashcard fields.
 // ------------------------------------------------------------------------------------------------
-export type FlashcardUpdateDto = Partial<{
-  front: string;
-  back: string;
-  source: "ai-full" | "ai-edited" | "manual";
-  generation_id: number | null;
-}>;
+export interface FlashcardUpdateDto {
+  front?: string;
+  back?: string;
+}
+
+export interface FlashcardUpdateCommand {
+  front?: string;
+  back?: string;
+}
 
 // ------------------------------------------------------------------------------------------------
 // 6. Generate Flashcards Command
@@ -159,6 +162,25 @@ export interface AuthenticatedNavbarProps {
 
 export interface AccountSettingsProps {
   user: AuthUser;
+}
+
+// ------------------------------------------------------------------------------------------------
+// 13. Flashcard Management Types
+//     Types for managing saved flashcards in the UI
+// ------------------------------------------------------------------------------------------------
+
+export interface FlashcardListFilters {
+  source?: Source;
+  search?: string;
+}
+
+export interface FlashcardListSort {
+  field: 'created_at' | 'updated_at' | 'front';
+  order: 'asc' | 'desc';
+}
+
+export interface FlashcardWithActions extends FlashcardDto {
+  isEditing?: boolean;
 }
 
 export type AuthErrorCode =
