@@ -61,10 +61,21 @@ See `src/pages/api/TESTING.md` for test examples and scenarios.
 
 ## Tech Stack
 
+### Core Technologies
 - [Astro](https://astro.build/) v5.5.5 - Modern web framework for building fast, content-focused websites
 - [React](https://react.dev/) v19.0.0 - UI library for building interactive components
 - [TypeScript](https://www.typescriptlang.org/) v5 - Type-safe JavaScript
 - [Tailwind CSS](https://tailwindcss.com/) v4.0.17 - Utility-first CSS framework
+- [Supabase](https://supabase.com/) - Backend-as-a-Service (PostgreSQL database, authentication, RLS)
+- [OpenRouter](https://openrouter.ai/) - AI model integration for flashcard generation
+
+### Testing Technologies
+- **Unit & Integration Tests**
+  - [Vitest](https://vitest.dev/) - Fast unit test framework with TypeScript support
+  - [React Testing Library](https://testing-library.com/react) - User-centric component testing
+  - [MSW (Mock Service Worker)](https://mswjs.io/) - API mocking for integration tests
+- **E2E Tests**
+  - [Playwright](https://playwright.dev/) - Cross-browser end-to-end testing with auto-waiting and retry mechanisms
 
 ## Prerequisites
 
@@ -134,11 +145,21 @@ npm run dev
 
 ## Available Scripts
 
+### Development
 - `npm run dev` - Start development server (http://localhost:4321)
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 - `npm run lint:fix` - Fix ESLint issues
+
+### Testing
+- `npm run test` - Run unit and integration tests
+- `npm run test:watch` - Run tests in watch mode
+- `npm run test:coverage` - Generate test coverage report
+- `npm run test:e2e` - Run end-to-end tests with Playwright
+- `npm run test:e2e:ui` - Run E2E tests with Playwright UI
+
+### Supabase
 - `npx supabase start` - Start Supabase local instance
 - `npx supabase stop` - Stop Supabase
 - `npx supabase status` - Check Supabase status and get connection details

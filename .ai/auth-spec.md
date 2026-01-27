@@ -1,4 +1,18 @@
-# Specyfikacja techniczna modułu autentykacji - 10x-cards
+Error
+An error occurred.
+Cannot find module '@radix-ui/react-label' imported from 'C:/Users/m3ss/Documents/Coursor/10x-project/src/components/ui/label.tsx'
+Stack Trace
+Error: Cannot find module '@radix-ui/react-label' imported from 'C:/Users/m3ss/Documents/Coursor/10x-project/src/components/ui/label.tsx'
+    at fetchModule (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/chunks/dep-Bu492Fnd.js:46831:19)
+    at RunnableDevEnvironment.fetchModule (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/chunks/dep-Bu492Fnd.js:47922:12)
+    at fetchModule (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/chunks/dep-Bu492Fnd.js:47876:21)
+    at handleInvoke (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/chunks/dep-Bu492Fnd.js:38991:28)
+    at EventEmitter.listenerForInvokeHandler (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/chunks/dep-Bu492Fnd.js:39064:25)
+    at EventEmitter.emit (node:events:514:28)
+    at Object.send (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/chunks/dep-Bu492Fnd.js:25190:40)
+    at Object.invoke (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/module-runner.js:621:34)
+    at Object.invoke (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/module-runner.js:682:34)
+    at SSRCompatModuleRunner.getModuleInformation (file:///C:/Users/m3ss/Documents/Coursor/10x-project/node_modules/vite/dist/node/module-# Specyfikacja techniczna modułu autentykacji - 10x-cards
 
 ## 1. WSTĘP
 

@@ -1,0 +1,45 @@
+## TESTING
+
+### Guidelines for E2E
+
+#### PLAYWRIGHT
+
+- Initialize configuration only with Chromium/Desktop Chrome browser
+- Use browser contexts for isolating test environments
+- Implement the Page Object Model for maintainable tests
+- Use locators for resilient element selection
+- Leverage API testing for backend validation
+- Implement visual comparison with expect(page).toHaveScreenshot()
+- Use the codegen tool for test recording
+- Leverage trace viewer for debugging test failures
+- Implement test hooks for setup and teardown
+- Use expect assertions with specific matchers
+- Leverage parallel execution for faster test runs
+
+#### PROJECT SETUP
+
+**Configuration**: `playwright.config.ts`
+- Test directory: `tests/e2e/`
+- Browser: Chromium (Desktop Chrome) only
+- Base URL: http://localhost:4321
+- Auto-start dev server before tests
+- Parallel execution: enabled
+- Retries on CI: 2
+- Trace: on-first-retry
+- Screenshots/Videos: on-failure
+
+**Scripts**:
+- `npm run test:e2e` - Run all E2E tests
+- `npm run test:e2e:headed` - Run with visible browser
+- `npm run test:e2e:debug` - Debug mode (step-by-step)
+- `npm run test:e2e:ui` - Playwright UI mode
+- `npm run test:e2e:report` - Show test report
+- `npm run test:e2e:codegen` - Generate tests by recording
+
+**Page Object Model**: `tests/e2e/pages/`
+- `BasePage.ts` - Base class with common functionality
+- Specific page classes extend BasePage
+- Locators defined in constructor
+- Action methods encapsulate interactions
+- See examples: HomePage.ts, LoginPage.ts
+
