@@ -8,21 +8,51 @@ This application uses AI to generate educational flashcards from user-provided t
 
 ### ✅ Implemented Features
 
+#### Backend API
 - **POST /api/generations** - AI flashcard generation endpoint
   - Input validation (1000-10000 characters)
-  - Mock AI service with automatic retry logic (up to 3 attempts)
+  - OpenRouter AI service integration
   - Generation metadata tracking (hash, duration, count)
   - Comprehensive error logging
   - Performance monitoring
   - 60-second timeout for AI calls
   - Exponential backoff for retries
 
-### 🚧 In Progress
+- **POST /api/flashcards** - Create flashcards (manual or from AI)
+- **GET /api/flashcards** - List flashcards with pagination, sorting, and filtering
+- **GET /api/flashcards/{id}** - Get single flashcard
+- **PUT /api/flashcards/{id}** - Update flashcard (front/back)
+- **DELETE /api/flashcards/{id}** - Delete flashcard
 
-- Frontend UI for flashcard generation
-- Flashcard management endpoints (CRUD)
-- User authentication with Supabase
-- Real AI service integration (OpenAI/Claude)
+#### Authentication
+- User registration and login with Supabase Auth
+- Password reset flow
+- Account deletion
+- Session management with middleware
+- Row-Level Security (RLS) policies
+
+#### Frontend UI
+- **Moje fiszki** - Main dashboard for managing flashcards
+  - List all flashcards with pagination
+  - Filter by source (AI-full, AI-edited, manual)
+  - Create manual flashcards
+  - Edit existing flashcards
+  - Delete flashcards with confirmation
+  - Flip animation to preview flashcards
+- **Generowanie** - AI-powered flashcard generation
+  - Input text (1000-10000 characters)
+  - Generate flashcard proposals
+  - Review, edit, accept/reject proposals
+  - Bulk save accepted flashcards
+- Responsive dark/light theme
+- Authenticated navigation with user menu
+
+### 🚧 Next Steps (Phase 2)
+
+- Spaced repetition algorithm implementation
+- Study session view with review flow
+- Statistics and analytics dashboard
+- Progress tracking and learning streaks
 
 ### 📚 API Documentation
 

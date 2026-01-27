@@ -1,6 +1,11 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import type { FlashcardsCreateCommand, FlashcardDto } from "../../types";
+import type { 
+  FlashcardsCreateCommand, 
+  FlashcardDto, 
+  FlashcardUpdateCommand,
+  FlashcardsListResponseDto 
+} from "../../types";
 import { FlashcardService } from "../../lib/flashcard.service";
 
 export const prerender = false;
@@ -51,6 +56,26 @@ const flashcardsCreateSchema = z.object({
     .array(flashcardCreateSchema)
     .min(1, "At least one flashcard is required")
     .max(100, "Cannot create more than 100 flashcards at once"),
+});
+
+/**
+ * Validation schema for PUT /flashcards/{id} endpoint
+ */
+const flashcardUpdateSchema = z.object({
+  front: z
+    .string()
+    .min(1, "Front cannot be empty")
+    .max(200, "Front cannot exceed 200 characters")
+    .transform((val) => val.trim())
+    .optional(),
+  back: z
+    .string()
+    .min(1, "Back cannot be empty")
+    .max(500, "Back cannot exceed 500 characters")
+    .transform((val) => val.trim())
+    .optional(),
+}).refine((data) => data.front !== undefined || data.back !== undefined, {
+  message: "At least one field (front or back) must be provided",
 });
 
 /**
@@ -177,6 +202,152 @@ export const POST: APIRoute = async ({ request, locals }) => {
       JSON.stringify({
         error: "Internal Server Error",
         message: "An unexpected error occurred while creating flashcards",
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+};
+
+/**
+ * GET /api/flashcards
+ *
+ * Retrieves a paginated list of flashcards for the authenticated user.
+ * Requires authentication.
+ *
+ * @param {number} page - Page number (default: 1)
+ * @param {number} limit - Items per page (default: 20, max: 100)
+ * @param {string} sort - Sort field (default: created_at)
+ * @param {string} order - Sort order (default: desc)
+ * @param {string} source - Filter by source (optional)
+ * @returns {FlashcardsListResponseDto} Paginated list of flashcards
+ *
+ * Status Codes:
+ * - 200: Flashcards retrieved successfully
+ * - 400: Invalid query parameters
+ * - 401: Unauthorized (user not authenticated)
+ * - 500: Server error (database error)
+ */
+export const GET: APIRoute = async ({ url, locals }) => {
+  try {
+    // Auth check
+    if (!locals.user) {
+      return new Response(
+        JSON.stringify({
+          error: "Unauthorized",
+          message: "Musisz być zalogowany aby pobrać fiszki",
+        }),
+        {
+          status: 401,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const userId = locals.user.id;
+
+    // Parse query parameters
+    const page = parseInt(url.searchParams.get("page") || "1");
+    const limit = parseInt(url.searchParams.get("limit") || "20");
+    const sort = url.searchParams.get("sort") || "created_at";
+    const order = url.searchParams.get("order") || "desc";
+    const source = url.searchParams.get("source");
+
+    // Validate query parameters
+    if (isNaN(page) || page < 1) {
+      return new Response(
+        JSON.stringify({
+          error: "Bad Request",
+          message: "Page must be a positive integer",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    if (isNaN(limit) || limit < 1 || limit > 100) {
+      return new Response(
+        JSON.stringify({
+          error: "Bad Request",
+          message: "Limit must be between 1 and 100",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    if (!["created_at", "updated_at", "front"].includes(sort)) {
+      return new Response(
+        JSON.stringify({
+          error: "Bad Request",
+          message: "Sort must be one of: created_at, updated_at, front",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    if (!["asc", "desc"].includes(order)) {
+      return new Response(
+        JSON.stringify({
+          error: "Bad Request",
+          message: "Order must be either asc or desc",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    if (source && !["ai-full", "ai-edited", "manual"].includes(source)) {
+      return new Response(
+        JSON.stringify({
+          error: "Bad Request",
+          message: "Source must be one of: ai-full, ai-edited, manual",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Initialize flashcard service
+    const flashcardService = new FlashcardService(locals.supabase);
+
+    // Retrieve flashcards
+    const result: FlashcardsListResponseDto = await flashcardService.getFlashcards(
+      userId,
+      page,
+      limit,
+      sort as 'created_at' | 'updated_at' | 'front',
+      order as 'asc' | 'desc',
+      source as 'ai-full' | 'ai-edited' | 'manual' | undefined
+    );
+
+    // Return successful response
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    // Log error for internal monitoring
+    console.error("[GET /api/flashcards] Unexpected error:", error);
+
+    // Return generic server error to client
+    return new Response(
+      JSON.stringify({
+        error: "Internal Server Error",
+        message: "An unexpected error occurred while retrieving flashcards",
       }),
       {
         status: 500,

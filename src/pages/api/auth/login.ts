@@ -82,7 +82,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         id: result.data.user.id,
         email: result.data.user.email ?? "",
       },
-      redirectTo: "/generate",
+      redirectTo: "/my-flashcards",
     };
 
     return new Response(JSON.stringify(response), {

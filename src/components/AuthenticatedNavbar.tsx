@@ -77,9 +77,21 @@ export function AuthenticatedNavbar({ user }: AuthenticatedNavbarProps) {
     <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo/Brand */}
-        <div className="flex items-center gap-2">
-          <Sparkles className="size-6 text-primary" aria-hidden="true" />
-          <span className="text-xl font-bold">10x-cards</span>
+        <div className="flex items-center gap-6">
+          <a href="/my-flashcards" className="flex items-center gap-2">
+            <Sparkles className="size-6 text-primary" aria-hidden="true" />
+            <span className="text-xl font-bold">10x-cards</span>
+          </a>
+          
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center gap-1">
+            <Button variant="ghost" asChild>
+              <a href="/my-flashcards">Moje fiszki</a>
+            </Button>
+            <Button variant="ghost" asChild>
+              <a href="/generate">Generowanie</a>
+            </Button>
+          </div>
         </div>
 
         {/* Right side: Theme toggle + User menu */}
@@ -116,9 +128,15 @@ export function AuthenticatedNavbar({ user }: AuthenticatedNavbarProps) {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
+                <a href="/my-flashcards" className="flex cursor-pointer items-center">
+                  <User className="mr-2 size-4" aria-hidden="true" />
+                  <span>Moje fiszki</span>
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <a href="/generate" className="flex cursor-pointer items-center">
                   <Sparkles className="mr-2 size-4" aria-hidden="true" />
-                  <span>Generowanie fiszek</span>
+                  <span>Generowanie</span>
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>

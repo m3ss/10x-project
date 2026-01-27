@@ -85,7 +85,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const response: AuthResponse = {
       success: true,
       message: "Konto zostało utworzone pomyślnie",
-      redirectTo: "/generate",
+      redirectTo: "/my-flashcards",
     };
 
     return new Response(JSON.stringify(response), {

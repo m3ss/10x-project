@@ -3,11 +3,11 @@ import Layout from "../layouts/Layout.astro";
 import { RegisterForm } from "../components/RegisterForm";
 import { ThemeToggle } from "../components/ThemeToggle";
 
-// Auth guard - redirect logged in users to /generate
+// Auth guard - redirect logged in users to /my-flashcards
 const user = Astro.locals.user;
 
 if (user) {
-  return Astro.redirect('/generate');
+  return Astro.redirect('/my-flashcards');
 }
 ---
 

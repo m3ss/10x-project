@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { MyFlashcardsView } from "../components/MyFlashcardsView";
+import { AuthenticatedNavbar } from "../components/AuthenticatedNavbar";
+
+// Auth guard - middleware already handles redirect to /login if not authenticated
+// But we double-check here for safety
+const user = Astro.locals.user;
+
+if (!user) {
+  return Astro.redirect('/login?redirect=/my-flashcards');
+}
+
+// Prepare user object for components
+const authUser = {
+  id: user.id,
+  email: user.email ?? '',
+};
+---
+
+<Layout title="Moje fiszki">
+  <AuthenticatedNavbar client:load user={authUser} />
+  <MyFlashcardsView client:load />
+</Layout>
