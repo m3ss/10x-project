@@ -1,5 +1,13 @@
 # 10x Astro Starter
 
+## 📚 Dokumentacja testowa
+
+Kompleksowe środowisko testowe zostało skonfigurowane dla testów jednostkowych (Vitest) i E2E (Playwright).
+
+**Szybki start:** [TESTING_INDEX.md](./TESTING_INDEX.md) - Centralny punkt dostępu do wszystkich zasobów testowych
+
+# 10x Astro Starter
+
 A modern, opinionated starter template for building fast, accessible, and AI-friendly web applications.
 
 ## Project: AI-Powered Flashcard Generator

@@ -210,6 +210,12 @@ Tests are designed to run in CI/CD pipelines:
 4. **Traces**: Enable traces in config, view with `playwright show-trace`
 5. **Screenshots/Videos**: Automatically captured on failure
 
+## Test Scenarios
+
+Szczegółowe scenariusze testów jednostkowych dla całej aplikacji znajdziesz w:
+- [TEST_SCENARIOS.md](./TEST_SCENARIOS.md) - Kompleksowe scenariusze testowe dla wszystkich komponentów
+- [QUICK_START.md](./QUICK_START.md) - Szybki start i najczęściej używane komendy
+
 ## Resources
 
 - [Vitest Documentation](https://vitest.dev/)
