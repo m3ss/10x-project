@@ -1,68 +1,53 @@
-import { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
  * Login Page Object Model
  * 
- * Handles login page interactions following Playwright best practices:
- * - Clear, semantic locators
- * - Reusable action methods
- * - Wait strategies for reliable tests
+ * Encapsulates all interactions with the login page
  */
 export class LoginPage extends BasePage {
-  // Locators
-  readonly emailInput: Locator;
-  readonly passwordInput: Locator;
-  readonly submitButton: Locator;
-  readonly errorMessage: Locator;
-  readonly heading: Locator;
+  // Locators using data-testid
+  private readonly loginForm: Locator;
+  private readonly emailInput: Locator;
+  private readonly passwordInput: Locator;
+  private readonly submitButton: Locator;
+  private readonly errorMessage: Locator;
+  private readonly registerLink: Locator;
 
   constructor(page: Page) {
     super(page);
     
-    // Define locators
-    this.emailInput = page.getByLabel(/email|e-mail/i);
-    this.passwordInput = page.getByLabel(/password|hasło/i);
-    this.submitButton = page.getByRole('button', { name: /login|zaloguj/i });
-    this.errorMessage = page.locator('[role="alert"]').first();
-    this.heading = page.locator('h1, h2').first();
+    // Initialize locators using data-testid
+    this.loginForm = page.getByTestId('login-form');
+    this.emailInput = page.getByTestId('login-email-input');
+    this.passwordInput = page.getByTestId('login-password-input');
+    this.submitButton = page.getByTestId('login-submit-button');
+    this.errorMessage = page.getByTestId('login-error');
+    this.registerLink = page.getByTestId('register-link');
   }
 
   /**
    * Navigate to login page
    */
-  async navigate() {
-    await this.goto('/login');
-    await this.waitForPageLoad();
+  async goto() {
+    await super.goto('/login');
+    await this.waitForElement(this.loginForm);
   }
 
   /**
-   * Fill login form
+   * Perform login action
    */
-  async fillLoginForm(email: string, password: string) {
+  async login(email: string, password: string) {
     await this.fillInput(this.emailInput, email);
     await this.fillInput(this.passwordInput, password);
-  }
-
-  /**
-   * Submit login form
-   */
-  async submitLogin() {
     await this.clickButton(this.submitButton);
   }
 
   /**
-   * Complete login process
+   * Check if error message is displayed
    */
-  async login(email: string, password: string) {
-    await this.fillLoginForm(email, password);
-    await this.submitLogin();
-  }
-
-  /**
-   * Check if error message is visible
-   */
-  async hasErrorMessage(): Promise<boolean> {
+  async hasError(): Promise<boolean> {
     return await this.isVisible(this.errorMessage);
   }
 
@@ -74,9 +59,31 @@ export class LoginPage extends BasePage {
   }
 
   /**
-   * Check if on login page
+   * Click register link
    */
-  async isOnLoginPage(): Promise<boolean> {
-    return this.getCurrentURL().includes('/login');
+  async goToRegister() {
+    await this.clickButton(this.registerLink);
+  }
+
+  /**
+   * Check if submit button is disabled
+   */
+  async isSubmitDisabled(): Promise<boolean> {
+    return await this.submitButton.isDisabled();
+  }
+
+  /**
+   * Wait for redirect after successful login
+   */
+  async waitForRedirect(expectedPath: string = '/generate') {
+    await this.page.waitForURL(`**${expectedPath}`, { timeout: 10000 });
+  }
+
+  /**
+   * Check if loading state is displayed
+   */
+  async isLoading(): Promise<boolean> {
+    const loadingText = await this.submitButton.textContent();
+    return loadingText?.includes('Logowanie...') || false;
   }
 }

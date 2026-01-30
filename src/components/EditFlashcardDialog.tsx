@@ -73,7 +73,7 @@ export function EditFlashcardDialog({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={handleCancel}>
-      <AlertDialogContent className="max-w-2xl">
+      <AlertDialogContent className="max-w-2xl" data-testid="edit-flashcard-dialog">
         <AlertDialogHeader>
           <AlertDialogTitle>Edytuj fiszkę</AlertDialogTitle>
           <AlertDialogDescription>
@@ -92,13 +92,14 @@ export function EditFlashcardDialog({
             </Label>
             <textarea
               id="edit-front"
+              data-testid="edit-front-input"
               className="flex min-h-[80px] w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-neutral-300"
               value={front}
               onChange={(e) => setFront(e.target.value)}
               placeholder="Wpisz pytanie lub pojęcie..."
               maxLength={200}
             />
-            {errors.front && <p className="text-sm text-red-600 dark:text-red-400">{errors.front}</p>}
+            {errors.front && <p className="text-sm text-red-600 dark:text-red-400" data-testid="edit-front-error">{errors.front}</p>}
           </div>
 
           {/* Back field */}
@@ -111,21 +112,22 @@ export function EditFlashcardDialog({
             </Label>
             <textarea
               id="edit-back"
+              data-testid="edit-back-input"
               className="flex min-h-[120px] w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-neutral-300"
               value={back}
               onChange={(e) => setBack(e.target.value)}
               placeholder="Wpisz odpowiedź lub wyjaśnienie..."
               maxLength={500}
             />
-            {errors.back && <p className="text-sm text-red-600 dark:text-red-400">{errors.back}</p>}
+            {errors.back && <p className="text-sm text-red-600 dark:text-red-400" data-testid="edit-back-error">{errors.back}</p>}
           </div>
         </div>
 
         <AlertDialogFooter>
-          <Button variant="outline" onClick={handleCancel}>
+          <Button variant="outline" onClick={handleCancel} data-testid="edit-cancel-button">
             Anuluj
           </Button>
-          <Button onClick={handleSave}>Zapisz zmiany</Button>
+          <Button onClick={handleSave} data-testid="edit-save-button">Zapisz zmiany</Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -70,17 +70,17 @@ export function MyFlashcardsView() {
   const totalPages = pagination ? Math.ceil(pagination.total / pagination.limit) : 0;
 
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-8">
+    <div className="container mx-auto max-w-6xl px-4 py-8" data-testid="my-flashcards-view">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100">Moje fiszki</h1>
-            <p className="text-neutral-600 dark:text-neutral-400">
+            <p className="text-neutral-600 dark:text-neutral-400" data-testid="flashcards-total-count">
               {pagination ? `Łącznie: ${pagination.total} fiszek` : "Ładowanie..."}
             </p>
           </div>
-          <Button onClick={() => setIsCreateDialogOpen(true)}>
+          <Button onClick={() => setIsCreateDialogOpen(true)} data-testid="create-flashcard-button">
             <svg
               className="mr-2 h-4 w-4"
               fill="none"
@@ -95,11 +95,12 @@ export function MyFlashcardsView() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2" data-testid="flashcard-filters">
           <Button
             variant={sourceFilter === "all" ? "default" : "outline"}
             onClick={() => handleFilterChange("all")}
             size="sm"
+            data-testid="filter-all"
           >
             Wszystkie
           </Button>
@@ -107,6 +108,7 @@ export function MyFlashcardsView() {
             variant={sourceFilter === "ai-full" ? "default" : "outline"}
             onClick={() => handleFilterChange("ai-full")}
             size="sm"
+            data-testid="filter-ai-full"
           >
             AI (pełne)
           </Button>
@@ -114,6 +116,7 @@ export function MyFlashcardsView() {
             variant={sourceFilter === "ai-edited" ? "default" : "outline"}
             onClick={() => handleFilterChange("ai-edited")}
             size="sm"
+            data-testid="filter-ai-edited"
           >
             AI (edytowane)
           </Button>
@@ -121,6 +124,7 @@ export function MyFlashcardsView() {
             variant={sourceFilter === "manual" ? "default" : "outline"}
             onClick={() => handleFilterChange("manual")}
             size="sm"
+            data-testid="filter-manual"
           >
             Ręczne
           </Button>
@@ -134,7 +138,7 @@ export function MyFlashcardsView() {
 
         {/* Empty State */}
         {!isLoading && flashcards.length === 0 && (
-          <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-12 text-center dark:border-neutral-800 dark:bg-neutral-900">
+          <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-12 text-center dark:border-neutral-800 dark:bg-neutral-900" data-testid="empty-state">
             <svg
               className="mx-auto h-16 w-16 text-neutral-400 dark:text-neutral-600"
               fill="none"
@@ -166,7 +170,7 @@ export function MyFlashcardsView() {
 
         {/* Flashcards List */}
         {!isLoading && flashcards.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-4" data-testid="flashcards-list">
             {flashcards.map((flashcard) => (
               <FlashcardCard
                 key={flashcard.id}
@@ -180,21 +184,23 @@ export function MyFlashcardsView() {
 
         {/* Pagination */}
         {!isLoading && totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2" data-testid="pagination">
             <Button
               variant="outline"
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
+              data-testid="pagination-previous"
             >
               Poprzednia
             </Button>
-            <span className="px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300">
+            <span className="px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300" data-testid="pagination-info">
               Strona {currentPage} z {totalPages}
             </span>
             <Button
               variant="outline"
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
+              data-testid="pagination-next"
             >
               Następna
             </Button>

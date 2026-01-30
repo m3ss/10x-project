@@ -14,6 +14,7 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.test
 .env.production
 .env.local
 .env.*.local
@@ -41,6 +42,7 @@ screenshots/
 # Playwright
 .cache/
 playwright/.cache/
+.auth/
 
 # Vitest
 *.log

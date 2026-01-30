@@ -74,11 +74,11 @@ export function AuthenticatedNavbar({ user }: AuthenticatedNavbarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" data-testid="authenticated-navbar">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo/Brand */}
         <div className="flex items-center gap-6">
-          <a href="/my-flashcards" className="flex items-center gap-2">
+          <a href="/my-flashcards" className="flex items-center gap-2" data-testid="logo-link">
             <Sparkles className="size-6 text-primary" aria-hidden="true" />
             <span className="text-xl font-bold">10x-cards</span>
           </a>
@@ -86,10 +86,10 @@ export function AuthenticatedNavbar({ user }: AuthenticatedNavbarProps) {
           {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-1">
             <Button variant="ghost" asChild>
-              <a href="/my-flashcards">Moje fiszki</a>
+              <a href="/my-flashcards" data-testid="nav-my-flashcards">Moje fiszki</a>
             </Button>
             <Button variant="ghost" asChild>
-              <a href="/generate">Generowanie</a>
+              <a href="/generate" data-testid="nav-generate">Generowanie</a>
             </Button>
           </div>
         </div>
@@ -102,6 +102,7 @@ export function AuthenticatedNavbar({ user }: AuthenticatedNavbarProps) {
             size="icon"
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Przełącz na jasny motyw" : "Przełącz na ciemny motyw"}
+            data-testid="theme-toggle"
           >
             {theme === "dark" ? (
               <Sun className="size-5 transition-all" aria-hidden="true" />
@@ -113,34 +114,34 @@ export function AuthenticatedNavbar({ user }: AuthenticatedNavbarProps) {
           {/* User Dropdown Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full" aria-label="Menu użytkownika">
+              <Button variant="ghost" size="icon" className="rounded-full" aria-label="Menu użytkownika" data-testid="user-menu-trigger">
                 <div className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                   <span className="text-xs font-medium">{getUserInitials(user.email)}</span>
                 </div>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuContent align="end" className="w-56" data-testid="user-menu-content">
               <DropdownMenuLabel>
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">Moje konto</p>
-                  <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  <p className="text-xs leading-none text-muted-foreground" data-testid="user-menu-email">{user.email}</p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <a href="/my-flashcards" className="flex cursor-pointer items-center">
+                <a href="/my-flashcards" className="flex cursor-pointer items-center" data-testid="menu-my-flashcards">
                   <User className="mr-2 size-4" aria-hidden="true" />
                   <span>Moje fiszki</span>
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a href="/generate" className="flex cursor-pointer items-center">
+                <a href="/generate" className="flex cursor-pointer items-center" data-testid="menu-generate">
                   <Sparkles className="mr-2 size-4" aria-hidden="true" />
                   <span>Generowanie</span>
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a href="/settings" className="flex cursor-pointer items-center">
+                <a href="/settings" className="flex cursor-pointer items-center" data-testid="menu-settings">
                   <Settings className="mr-2 size-4" aria-hidden="true" />
                   <span>Ustawienia</span>
                 </a>
@@ -150,6 +151,7 @@ export function AuthenticatedNavbar({ user }: AuthenticatedNavbarProps) {
                 onClick={handleLogout}
                 disabled={isLoggingOut}
                 className="cursor-pointer text-destructive focus:text-destructive"
+                data-testid="menu-logout"
               >
                 <LogOut className="mr-2 size-4" aria-hidden="true" />
                 <span>{isLoggingOut ? "Wylogowywanie..." : "Wyloguj się"}</span>

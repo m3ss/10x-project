@@ -59,7 +59,7 @@ export function AccountSettings({ user }: AccountSettingsProps) {
   };
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-8">
+    <div className="container mx-auto max-w-3xl px-4 py-8" data-testid="account-settings">
       <div className="space-y-8">
         {/* Account Information Section */}
         <Card>
@@ -70,13 +70,13 @@ export function AccountSettings({ user }: AccountSettingsProps) {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label>Email</Label>
-              <div className="rounded-md border bg-muted px-3 py-2 text-sm">
+              <div className="rounded-md border bg-muted px-3 py-2 text-sm" data-testid="account-email">
                 {user.email}
               </div>
             </div>
             <div className="space-y-2">
               <Label>ID użytkownika</Label>
-              <div className="rounded-md border bg-muted px-3 py-2 font-mono text-xs">
+              <div className="rounded-md border bg-muted px-3 py-2 font-mono text-xs" data-testid="account-id">
                 {user.id}
               </div>
             </div>
@@ -110,12 +110,12 @@ export function AccountSettings({ user }: AccountSettingsProps) {
 
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="destructive" disabled={isDeleting}>
+                  <Button variant="destructive" disabled={isDeleting} data-testid="delete-account-button">
                     <Trash2 className="mr-2 size-4" aria-hidden="true" />
                     Usuń konto
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
+                <AlertDialogContent data-testid="delete-account-dialog">
                   <AlertDialogHeader>
                     <AlertDialogTitle>Czy na pewno chcesz usunąć swoje konto?</AlertDialogTitle>
                     <AlertDialogDescription className="space-y-4">
@@ -134,16 +134,18 @@ export function AccountSettings({ user }: AccountSettingsProps) {
                           value={confirmText}
                           onChange={(e) => setConfirmText(e.target.value)}
                           disabled={isDeleting}
+                          data-testid="delete-account-confirm-input"
                         />
                       </div>
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isDeleting}>Anuluj</AlertDialogCancel>
+                    <AlertDialogCancel disabled={isDeleting} data-testid="delete-account-cancel">Anuluj</AlertDialogCancel>
                     <AlertDialogAction
                       onClick={handleDeleteAccount}
                       disabled={isDeleting || confirmText !== "USUŃ KONTO"}
                       className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      data-testid="delete-account-confirm"
                     >
                       {isDeleting ? "Usuwanie..." : "Potwierdź usunięcie"}
                     </AlertDialogAction>

@@ -79,18 +79,18 @@ export const FlashcardCard = memo(function FlashcardCard({
 
   return (
     <>
-      <Card className="p-6 transition-all hover:shadow-md">
+      <Card className="p-6 transition-all hover:shadow-md" data-testid={`flashcard-card-${flashcard.id}`}>
         <div className="space-y-4">
           {/* Header with source badge */}
           <div className="flex items-start justify-between">
             <div className="space-y-1">
               {getSourceBadge(flashcard.source)}
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400" data-testid="flashcard-created-date">
                 Utworzono: {formatDate(flashcard.created_at)}
               </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={() => setIsEditDialogOpen(true)}>
+              <Button variant="outline" size="sm" onClick={() => setIsEditDialogOpen(true)} data-testid="edit-flashcard-button">
                 <svg
                   className="h-4 w-4"
                   fill="none"
@@ -107,7 +107,7 @@ export const FlashcardCard = memo(function FlashcardCard({
                 </svg>
                 <span className="ml-2">Edytuj</span>
               </Button>
-              <Button variant="outline" size="sm" onClick={handleDeleteClick}>
+              <Button variant="outline" size="sm" onClick={handleDeleteClick} data-testid="delete-flashcard-button">
                 <svg
                   className="h-4 w-4 text-red-600 dark:text-red-400"
                   fill="none"
@@ -140,11 +140,13 @@ export const FlashcardCard = memo(function FlashcardCard({
               }
             }}
             aria-label={isFlipped ? "Pokaż przód fiszki" : "Pokaż tył fiszki"}
+            data-testid="flashcard-flip-area"
           >
             <div
               className={`rounded-lg border border-neutral-200 bg-white p-6 transition-all dark:border-neutral-700 dark:bg-neutral-800 ${
                 isFlipped ? "opacity-0" : "opacity-100"
               }`}
+              data-testid="flashcard-front"
             >
               <p className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
                 Przód
@@ -152,7 +154,7 @@ export const FlashcardCard = memo(function FlashcardCard({
               <p className="mt-2 text-base text-neutral-900 dark:text-neutral-100">{flashcard.front}</p>
             </div>
             {isFlipped && (
-              <div className="absolute inset-0 rounded-lg border border-neutral-200 bg-neutral-50 p-6 transition-all dark:border-neutral-700 dark:bg-neutral-900">
+              <div className="absolute inset-0 rounded-lg border border-neutral-200 bg-neutral-50 p-6 transition-all dark:border-neutral-700 dark:bg-neutral-900" data-testid="flashcard-back">
                 <p className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
                   Tył
                 </p>

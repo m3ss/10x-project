@@ -79,7 +79,7 @@ export function FlashcardGenerationView() {
   }, [localFlashcards, generationId, saveFlashcards, resetSaveState]);
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
+    <div className="container mx-auto max-w-4xl px-4 py-8" data-testid="flashcard-generation-view">
       <div className="space-y-6">
         {/* Header */}
         <div className="space-y-2">
@@ -94,7 +94,7 @@ export function FlashcardGenerationView() {
           <TextInputArea value={textValue} onChange={setTextValue} disabled={isLoading} />
 
           <div className="flex gap-2">
-            <Button onClick={handleGenerate} disabled={!canGenerate} className="flex-1 sm:flex-none">
+            <Button onClick={handleGenerate} disabled={!canGenerate} className="flex-1 sm:flex-none" data-testid="generate-button">
               {isLoading ? (
                 <>
                   <svg className="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -124,7 +124,7 @@ export function FlashcardGenerationView() {
             </Button>
 
             {(flashcards.length > 0 || error) && (
-              <Button onClick={handleReset} variant="outline" disabled={isLoading}>
+              <Button onClick={handleReset} variant="outline" disabled={isLoading} data-testid="reset-button">
                 <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path
                     strokeLinecap="round"

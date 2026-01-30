@@ -111,15 +111,15 @@ export function RegisterForm({}: RegisterFormProps) {
   const passwordStrength = getPasswordStrength();
 
   return (
-    <div className="container mx-auto max-w-md px-4 py-8">
+    <div className="container mx-auto max-w-md px-4 py-8" data-testid="register-form">
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Rejestracja</CardTitle>
           <CardDescription>Utwórz konto aby korzystać z 10x-cards</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} data-testid="register-form-element">
           <CardContent className="space-y-4">
-            {error && <ErrorNotification message={error} type="error" />}
+            {error && <ErrorNotification message={error} type="error" data-testid="register-error" />}
 
             <div className="space-y-2">
               <Label htmlFor="email">Adres email</Label>
@@ -132,6 +132,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 disabled={isLoading}
                 autoComplete="email"
                 required
+                data-testid="register-email-input"
               />
               <p className="text-xs text-muted-foreground">
                 Użyjemy tego adresu do weryfikacji konta
@@ -149,9 +150,10 @@ export function RegisterForm({}: RegisterFormProps) {
                 disabled={isLoading}
                 autoComplete="new-password"
                 required
+                data-testid="register-password-input"
               />
               {password && (
-                <p className={`text-xs ${passwordStrength.color}`}>
+                <p className={`text-xs ${passwordStrength.color}`} data-testid="password-strength">
                   Siła hasła: {passwordStrength.text}
                 </p>
               )}
@@ -171,12 +173,13 @@ export function RegisterForm({}: RegisterFormProps) {
                 disabled={isLoading}
                 autoComplete="new-password"
                 required
+                data-testid="register-confirm-password-input"
               />
             </div>
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading} data-testid="register-submit-button">
               {isLoading ? (
                 <>
                   <svg
@@ -208,7 +211,7 @@ export function RegisterForm({}: RegisterFormProps) {
 
             <div className="text-center text-sm text-muted-foreground">
               Masz już konto?{" "}
-              <a href="/login" className="text-primary hover:underline font-medium">
+              <a href="/login" className="text-primary hover:underline font-medium" data-testid="login-link">
                 Zaloguj się
               </a>
             </div>

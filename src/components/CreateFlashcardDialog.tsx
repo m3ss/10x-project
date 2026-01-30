@@ -77,7 +77,7 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
 
   return (
     <AlertDialog open={isOpen} onOpenChange={handleCancel}>
-      <AlertDialogContent className="max-w-2xl">
+      <AlertDialogContent className="max-w-2xl" data-testid="create-flashcard-dialog">
         <AlertDialogHeader>
           <AlertDialogTitle>Utwórz nową fiszkę</AlertDialogTitle>
           <AlertDialogDescription>
@@ -85,7 +85,7 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        {error && <ErrorNotification message={error} type="error" />}
+        {error && <ErrorNotification message={error} type="error" data-testid="create-flashcard-error" />}
 
         <div className="space-y-4 py-4">
           {/* Front field */}
@@ -98,6 +98,7 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
             </Label>
             <textarea
               id="create-front"
+              data-testid="create-front-input"
               className="flex min-h-[80px] w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-neutral-300"
               value={front}
               onChange={(e) => setFront(e.target.value)}
@@ -105,7 +106,7 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
               maxLength={200}
               disabled={isCreating}
             />
-            {errors.front && <p className="text-sm text-red-600 dark:text-red-400">{errors.front}</p>}
+            {errors.front && <p className="text-sm text-red-600 dark:text-red-400" data-testid="create-front-error">{errors.front}</p>}
           </div>
 
           {/* Back field */}
@@ -118,6 +119,7 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
             </Label>
             <textarea
               id="create-back"
+              data-testid="create-back-input"
               className="flex min-h-[120px] w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-neutral-300"
               value={back}
               onChange={(e) => setBack(e.target.value)}
@@ -125,15 +127,15 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
               maxLength={500}
               disabled={isCreating}
             />
-            {errors.back && <p className="text-sm text-red-600 dark:text-red-400">{errors.back}</p>}
+            {errors.back && <p className="text-sm text-red-600 dark:text-red-400" data-testid="create-back-error">{errors.back}</p>}
           </div>
         </div>
 
         <AlertDialogFooter>
-          <Button variant="outline" onClick={handleCancel} disabled={isCreating}>
+          <Button variant="outline" onClick={handleCancel} disabled={isCreating} data-testid="create-cancel-button">
             Anuluj
           </Button>
-          <Button onClick={handleCreate} disabled={isCreating}>
+          <Button onClick={handleCreate} disabled={isCreating} data-testid="create-submit-button">
             {isCreating ? (
               <>
                 <svg className="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">

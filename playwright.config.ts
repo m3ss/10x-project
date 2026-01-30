@@ -1,4 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load test environment variables from .env.test
+dotenv.config({ path: path.resolve(process.cwd(), '.env.test') });
 
 /**
  * Playwright E2E Testing Configuration
@@ -59,16 +64,41 @@ export default defineConfig({
   
   // Configure projects for Chromium only (as per guidelines)
   projects: [
+    // Setup project - runs once to authenticate and save state
     {
-      name: 'chromium',
+      name: 'setup',
+      testMatch: '**/auth.setup.ts',
+    },
+    
+    // Auth tests project - NO authenticated state (tests login/register/logout)
+    {
+      name: 'chromium-auth',
+      testMatch: '**/auth/**/*.spec.ts',
       use: { 
         ...devices['Desktop Chrome'],
+        // No storage state for auth tests - they test authentication itself
+        contextOptions: {
+          ignoreHTTPSErrors: true,
+        },
+      },
+    },
+    
+    // Main test project - uses authenticated state
+    {
+      name: 'chromium',
+      testMatch: ['**/*.spec.ts', '!**/auth/**/*.spec.ts'],
+      use: { 
+        ...devices['Desktop Chrome'],
+        // Use saved authentication state
+        storageState: '.auth/user.json',
         // Browser context options for isolation
         contextOptions: {
           // Ignore HTTPS errors in development
           ignoreHTTPSErrors: true,
         },
       },
+      // Run setup before all tests
+      dependencies: ['setup'],
     },
   ],
   

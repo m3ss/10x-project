@@ -22,7 +22,7 @@ export const TextInputArea = memo(function TextInputArea({
   const isTooLong = characterCount > maxLength;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" data-testid="text-input-area">
       <label htmlFor={textareaId} className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
         Tekst źródłowy
       </label>
@@ -44,6 +44,7 @@ export const TextInputArea = memo(function TextInputArea({
         } dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder-neutral-500`}
         aria-describedby={`${textareaId}-description ${textareaId}-count`}
         aria-invalid={isTooShort || isTooLong}
+        data-testid="text-input-textarea"
       />
       <div className="flex items-center justify-between text-xs">
         <div
@@ -76,6 +77,7 @@ export const TextInputArea = memo(function TextInputArea({
                 : "text-neutral-500 dark:text-neutral-400"
           }`}
           aria-live="polite"
+          data-testid="character-count"
         >
           {characterCount.toLocaleString()} / {maxLength.toLocaleString()}
         </div>

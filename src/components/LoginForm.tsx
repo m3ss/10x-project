@@ -76,16 +76,16 @@ export function LoginForm({ redirectTo = "/generate", message = null }: LoginFor
   };
 
   return (
-    <div className="container mx-auto max-w-md px-4 py-8">
+    <div className="container mx-auto max-w-md px-4 py-8" data-testid="login-form">
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Logowanie</CardTitle>
           <CardDescription>Wprowadź swoje dane aby się zalogować</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} data-testid="login-form-element">
           <CardContent className="space-y-4">
             {message && <ErrorNotification message={message} type="info" />}
-            {error && <ErrorNotification message={error} type="error" />}
+            {error && <ErrorNotification message={error} type="error" data-testid="login-error" />}
 
             <div className="space-y-2">
               <Label htmlFor="email">Adres email</Label>
@@ -98,19 +98,13 @@ export function LoginForm({ redirectTo = "/generate", message = null }: LoginFor
                 disabled={isLoading}
                 autoComplete="email"
                 required
+                data-testid="login-email-input"
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Hasło</Label>
-                <a
-                  href="/reset-password"
-                  className="text-sm text-primary hover:underline"
-                  tabIndex={-1}
-                >
-                  Zapomniałeś hasła?
-                </a>
               </div>
               <Input
                 id="password"
@@ -121,12 +115,13 @@ export function LoginForm({ redirectTo = "/generate", message = null }: LoginFor
                 disabled={isLoading}
                 autoComplete="current-password"
                 required
+                data-testid="login-password-input"
               />
             </div>
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading} data-testid="login-submit-button">
               {isLoading ? (
                 <>
                   <svg
@@ -158,7 +153,7 @@ export function LoginForm({ redirectTo = "/generate", message = null }: LoginFor
 
             <div className="text-center text-sm text-muted-foreground">
               Nie masz jeszcze konta?{" "}
-              <a href="/register" className="text-primary hover:underline font-medium">
+              <a href="/register" className="text-primary hover:underline font-medium" data-testid="register-link">
                 Zarejestruj się
               </a>
             </div>

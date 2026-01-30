@@ -31,7 +31,7 @@ export function DeleteConfirmDialog({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent>
+      <AlertDialogContent data-testid="delete-confirm-dialog">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <svg
@@ -50,17 +50,18 @@ export function DeleteConfirmDialog({
             </svg>
             {title}
           </AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogDescription data-testid="delete-confirm-description">{description}</AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <Button variant="outline" onClick={onClose} disabled={isDeleting}>
+          <Button variant="outline" onClick={onClose} disabled={isDeleting} data-testid="delete-cancel-button">
             Anuluj
           </Button>
           <Button
             variant="destructive"
             onClick={handleConfirm}
             disabled={isDeleting}
+            data-testid="delete-confirm-button"
           >
             {isDeleting ? (
               <>
