@@ -67,7 +67,7 @@ export default defineConfig({
     // Setup project - runs once to authenticate and save state
     {
       name: 'setup',
-      testMatch: '**/auth.setup.ts',
+      testMatch: '**/auth.setup.api.ts',
     },
     
     // Auth tests project - NO authenticated state (tests login/register/logout)
@@ -102,13 +102,25 @@ export default defineConfig({
     },
   ],
   
-  // Run dev server before tests (optional)
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:4321',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  // Run dev server before tests with test environment variables
+  // Disabled - run server manually with: npm run dev
+  // webServer: {
+  //   command: 'npm run dev',
+  //   url: 'http://localhost:4321',
+  //   reuseExistingServer: !process.env.CI,
+  //   timeout: 120000,
+  //   env: {
+  //     SUPABASE_URL: process.env.SUPABASE_URL || '',
+  //     SUPABASE_KEY: process.env.SUPABASE_KEY || '',
+  //     SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY || '',
+  //     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || '',
+  //     AI_SERVICE_PROVIDER: process.env.AI_SERVICE_PROVIDER || '',
+  //     OPENROUTER_MODEL: process.env.OPENROUTER_MODEL || '',
+  //     OPENROUTER_TEMPERATURE: process.env.OPENROUTER_TEMPERATURE || '',
+  //     OPENROUTER_TOP_P: process.env.OPENROUTER_TOP_P || '',
+  //     AI_SERVICE_TIMEOUT: process.env.AI_SERVICE_TIMEOUT || '',
+  //   },
+  // },
   
   // Output directory
   outputDir: 'test-results/',

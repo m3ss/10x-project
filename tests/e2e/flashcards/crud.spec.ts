@@ -77,16 +77,27 @@ test.describe('Flashcards CRUD Operations', () => {
     });
 
     test('should show validation error for empty front field', async ({ myFlashcardsPage, page }) => {
+      // Navigate and wait for page to load
       await myFlashcardsPage.goto();
+      await page.waitForLoadState('networkidle');
+      await expect(page.getByTestId('my-flashcards-view')).toBeVisible();
       
       // Open create dialog
-      await myFlashcardsPage.clickCreateFlashcard();
+      const createButton = page.getByTestId('create-flashcard-button');
+      await expect(createButton).toBeVisible();
+      await createButton.click();
+      
+      // Wait for dialog to open
+      await expect(page.getByTestId('create-flashcard-dialog')).toBeVisible({ timeout: 10000 });
       
       // Fill only back field
       await page.getByTestId('create-back-input').fill('Test answer');
       
       // Try to submit
       await page.getByTestId('create-submit-button').click();
+      
+      // Wait for validation
+      await page.waitForTimeout(300);
       
       // Error should be displayed
       await expect(page.getByTestId('create-front-error')).toBeVisible();
@@ -95,13 +106,16 @@ test.describe('Flashcards CRUD Operations', () => {
     test('should show validation error for empty back field', async ({ myFlashcardsPage, page }) => {
       // Navigate to my-flashcards page
       await myFlashcardsPage.goto();
+      await page.waitForLoadState('networkidle');
+      await expect(page.getByTestId('my-flashcards-view')).toBeVisible();
       
       // Open create dialog
-      await myFlashcardsPage.clickCreateFlashcard();
+      const createButton = page.getByTestId('create-flashcard-button');
+      await expect(createButton).toBeVisible();
+      await createButton.click();
       
-      // Wait for dialog
-      await page.waitForTimeout(500);
-      await expect(page.getByTestId('create-flashcard-dialog')).toBeVisible();
+      // Wait for dialog to open
+      await expect(page.getByTestId('create-flashcard-dialog')).toBeVisible({ timeout: 10000 });
       
       // Fill only front field
       await page.getByTestId('create-front-input').fill('Test question');
@@ -160,11 +174,15 @@ test.describe('Flashcards CRUD Operations', () => {
       // Wait for generation to complete
       await generatePage.waitForGeneration(40000);
       
+      // Wait a bit more for cards to render
+      await page.waitForTimeout(2000);
+      
       // Check if flashcards were generated
       const totalCount = await generatePage.getTotalFlashcardsCount();
       expect(totalCount).toBeGreaterThan(0);
       
-      // Check if flashcard cards are visible
+      // Wait for cards to be visible and check count
+      await page.waitForSelector('[data-testid="flashcard-card"]', { timeout: 10000 });
       const flashcardsCount = await generatePage.getAllFlashcardCards().count();
       expect(flashcardsCount).toBeGreaterThan(0);
     });
