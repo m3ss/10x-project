@@ -56,6 +56,7 @@ export const FlashcardListItem = memo(function FlashcardListItem({
           ? "border-green-300 bg-green-50 dark:border-green-800 dark:bg-green-950/30"
           : "border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950"
       }`}
+      data-testid={`flashcard-card-${index}`}
     >
       {/* Header with status and actions */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
