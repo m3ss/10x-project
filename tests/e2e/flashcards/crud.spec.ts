@@ -182,7 +182,7 @@ test.describe('Flashcards CRUD Operations', () => {
       expect(totalCount).toBeGreaterThan(0);
       
       // Wait for cards to be visible and check count
-
+      await page.waitForSelector('[data-testid^="flashcard-card-"]', { timeout: 10000 });
       const flashcardsCount = await generatePage.getAllFlashcardCards().count();
       expect(flashcardsCount).toBeGreaterThan(0);
     });
