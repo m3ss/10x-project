@@ -1,0 +1,270 @@
+# GitHub Actions - Reguły i Best Practices
+
+## Ogólne zasady
+
+### Struktura workflow
+
+- Wszystkie workflow GitHub Actions powinny być umieszczone w katalogu `.github/workflows/`
+- Używaj rozszerzenia `.yml` lub `.yaml` dla plików workflow
+- Nazwij pliki workflow opisowo, zgodnie z ich przeznaczeniem (np. `pull-request.yml`, `deploy.yml`)
+
+### Wersjonowanie akcji
+
+- Zawsze używaj konkretnych wersji akcji (np. `actions/checkout@v4`) zamiast `@latest`
+- Preferuj najnowsze stabilne wersje oficjalnych akcji GitHub
+- Regularnie aktualizuj wersje akcji do najnowszych stabilnych
+
+### Node.js setup
+
+```yaml
+- name: Setup Node.js
+  uses: actions/setup-node@v4
+  with:
+    node-version: '20'
+    cache: 'npm'
+```
+
+### Instalacja zależności
+
+- Używaj `npm ci` zamiast `npm install` dla powtarzalnych buildów
+- Włącz cache'owanie zależności dla szybszych buildów
+
+## Workflow dla Pull Requestów
+
+### Podstawowa struktura
+
+```yaml
+name: Pull Request CI
+
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+      - develop
+```
+
+### Jobs i kolejność wykonania
+
+1. **Linting** - pierwsza warstwa walidacji
+   - ESLint dla JavaScript/TypeScript
+   - Prettier dla formatowania (opcjonalnie)
+
+2. **Unit Tests** - testy jednostkowe
+   - Uruchamianie z coverage
+   - Wymaga sukcesu lintingu (`needs: lint`)
+
+3. **E2E Tests** (opcjonalnie)
+   - Testy end-to-end
+   - Wymaga sukcesu testów jednostkowych
+
+4. **Status Comment** - komentarz podsumowujący
+   - Uruchamia się tylko gdy wszystkie poprzednie joby zakończą się sukcesem
+   - Wymaga `needs: [lint, unit-test]`
+   - Warunek: `if: always() && needs.lint.result == 'success' && needs.unit-test.result == 'success'`
+
+### Przykład job linting
+
+```yaml
+lint:
+  name: Lint Code
+  runs-on: ubuntu-latest
+  
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run ESLint
+      run: npm run lint
+```
+
+### Przykład job testów jednostkowych z coverage
+
+```yaml
+unit-test:
+  name: Unit Tests
+  runs-on: ubuntu-latest
+  needs: lint
+  
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run unit tests with coverage
+      run: npm run test:unit:coverage
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
+      if: always()
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage/coverage-final.json
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+    
+    - name: Archive coverage artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-report
+        path: coverage/
+        retention-days: 30
+```
+
+### Status Comment Job
+
+```yaml
+status-comment:
+  name: PR Status Comment
+  runs-on: ubuntu-latest
+  needs: [lint, unit-test]
+  if: always() && needs.lint.result == 'success' && needs.unit-test.result == 'success'
+  
+  permissions:
+    pull-requests: write
+  
+  steps:
+    - name: Download coverage artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage/
+    
+    - name: Extract coverage summary
+      id: coverage
+      run: |
+        if [ -f "coverage/coverage-summary.json" ]; then
+          COVERAGE=$(cat coverage/coverage-summary.json | jq -r '.total.lines.pct')
+          echo "percentage=$COVERAGE" >> $GITHUB_OUTPUT
+        else
+          echo "percentage=N/A" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Comment PR with status
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const coverage = '${{ steps.coverage.outputs.percentage }}';
+          const body = `## ✅ Pull Request CI - Success
+          
+          ### 📊 Summary
+          | Job | Status |
+          |-----|--------|
+          | 🔍 Lint | ✅ Passed |
+          | 🧪 Unit Tests | ✅ Passed |
+          | 📈 Coverage | ${coverage}% |
+          `;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: body
+          });
+```
+
+## Coverage Reports
+
+### Vitest Coverage
+
+- Użyj komendy: `npm run test:unit:coverage`
+- Wygenerowane pliki coverage znajdują się w katalogu `coverage/`
+- Format raportów: JSON, HTML, text
+
+### Integracja z Codecov
+
+- Wymaga ustawienia `CODECOV_TOKEN` w secrets repozytorium
+- Akcja: `codecov/codecov-action@v4`
+- Flagi dla różnych typów testów: `unittests`, `e2etests`
+
+### Artifacts
+
+- Zapisuj raporty coverage jako artifacts dla późniejszej analizy
+- Retention period: 30 dni (dostosuj według potrzeb)
+- Używaj `actions/upload-artifact@v4` i `actions/download-artifact@v4`
+
+## Uprawnienia (Permissions)
+
+### Pull Requests Comments
+
+```yaml
+permissions:
+  pull-requests: write
+```
+
+### Wszystkie operacje
+
+```yaml
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+```
+
+## Best Practices
+
+1. **Dependency Caching**: Zawsze używaj cache dla zależności npm
+2. **Fail Fast**: Zatrzymuj workflow gdy lint failuje (używaj `needs`)
+3. **Conditional Execution**: Używaj `if` dla warunkowych kroków
+4. **Secrets Management**: Nigdy nie commituj secrets, używaj GitHub Secrets
+5. **Matrix Strategy**: Dla testów na różnych wersjach Node.js użyj matrix
+6. **Timeout**: Ustaw rozsądne timeouty dla jobów (`timeout-minutes: 10`)
+7. **Artifacts**: Zachowuj ważne artefakty (coverage, test results) dla analizy
+
+## Environment Variables
+
+### Vitest
+
+```yaml
+env:
+  NODE_ENV: test
+  VITEST_COVERAGE: true
+```
+
+### Supabase (jeśli potrzebne)
+
+```yaml
+env:
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+```
+
+## Troubleshooting
+
+### Coverage nie jest generowane
+
+- Sprawdź czy w `package.json` jest skrypt `test:unit:coverage`
+- Upewnij się że `@vitest/coverage-v8` jest zainstalowane
+- Zweryfikuj konfigurację `vitest.config.ts`
+
+### Status comment nie pojawia się
+
+- Sprawdź czy workflow ma uprawnienia `pull-requests: write`
+- Zweryfikuj warunek `if` w job `status-comment`
+- Upewnij się że `GITHUB_TOKEN` jest dostępny
+
+### Artifacts nie są zachowywane
+
+- Sprawdź ścieżkę do artifacts (`path:`)
+- Zweryfikuj czy pliki faktycznie istnieją po wykonaniu testów
+- Upewnij się że używasz najnowszej wersji `actions/upload-artifact`
