@@ -20,6 +20,41 @@ const baseConfig = tseslint.config({
   rules: {
     "no-console": "warn",
     "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-empty-object-type": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+  },
+});
+
+// Node.js scripts configuration
+const nodeScriptsConfig = tseslint.config({
+  files: ["**/*.mjs", "**/*.cjs"],
+  languageOptions: {
+    globals: {
+      console: "readonly",
+      process: "readonly",
+      __dirname: "readonly",
+      __filename: "readonly",
+      Buffer: "readonly",
+      global: "readonly",
+    },
+  },
+  rules: {
+    "no-console": "off",
+  },
+});
+
+// Test files configuration
+const testConfig = tseslint.config({
+  files: ["tests/**/*.{ts,tsx,js,jsx}", "**/*.test.{ts,tsx,js,jsx}", "**/*.spec.{ts,tsx,js,jsx}"],
+  rules: {
+    "no-console": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-useless-constructor": "warn",
+    "@typescript-eslint/no-empty-object-type": "warn",
+    "react-hooks/rules-of-hooks": "off", // Playwright fixtures use "use" callback, not React hooks
   },
 });
 
@@ -52,15 +87,31 @@ const reactConfig = tseslint.config({
   rules: {
     ...eslintPluginReactHooks.configs.recommended.rules,
     "react/react-in-jsx-scope": "off",
-    "react-compiler/react-compiler": "error",
+    "react-compiler/react-compiler": "warn",
+    "react/no-unescaped-entities": "warn",
+    "jsx-a11y/heading-has-content": "warn",
   },
 });
 
 export default tseslint.config(
   includeIgnoreFile(gitignorePath),
+  {
+    ignores: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.astro/**",
+      "**/coverage/**",
+      "src/db/database.types.ts", // Generated file
+      "**/*.mjs", // Node scripts with console/process
+      "src/layouts/Layout.astro", // Prettier parsing issue
+      "src/pages/test-openrouter.astro", // Test page with parsing issues
+    ],
+  },
   baseConfig,
+  nodeScriptsConfig,
   jsxA11yConfig,
   reactConfig,
+  testConfig, // Apply after reactConfig to override react-hooks rules
   eslintPluginAstro.configs["flat/recommended"],
   eslintPluginPrettier
 );

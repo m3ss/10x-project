@@ -147,7 +147,7 @@ export const GET: APIRoute = async ({ url }) => {
         result = await testBasicResponse(apiKey);
         break;
 
-      case "flashcards":
+      case "flashcards": {
         const model = import.meta.env.OPENROUTER_MODEL;
         const temperature = import.meta.env.OPENROUTER_TEMPERATURE
           ? parseFloat(import.meta.env.OPENROUTER_TEMPERATURE)
@@ -156,12 +156,13 @@ export const GET: APIRoute = async ({ url }) => {
 
         result = await testFlashcardGeneration(apiKey, model, temperature, topP);
         break;
+      }
 
       case "config":
         result = await testConfiguration();
         break;
 
-      case "all":
+      case "all": {
         const configResult = await testConfiguration();
         const basicResult = await testBasicResponse(apiKey);
         const flashcardsResult = await testFlashcardGeneration(apiKey);
@@ -175,6 +176,7 @@ export const GET: APIRoute = async ({ url }) => {
           },
         };
         break;
+      }
 
       default:
         return new Response(

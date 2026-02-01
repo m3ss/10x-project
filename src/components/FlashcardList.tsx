@@ -34,7 +34,7 @@ export const FlashcardList = memo(function FlashcardList({
         </svg>
         <p className="mt-4 text-neutral-600 dark:text-neutral-400">Brak wygenerowanych fiszek</p>
         <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-500">
-          Wprowadź tekst i kliknij "Generuj fiszki", aby rozpocząć
+          Wprowadź tekst i kliknij &quot;Generuj fiszki&quot;, aby rozpocząć
         </p>
       </div>
     );

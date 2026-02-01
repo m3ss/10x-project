@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { ErrorNotification } from "./ErrorNotification";
 import type { RegisterFormProps } from "@/types";
 
-export function RegisterForm({}: RegisterFormProps) {
+export function RegisterForm(_props: RegisterFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

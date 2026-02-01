@@ -52,7 +52,7 @@ export function AccountSettings({ user }: AccountSettingsProps) {
         setError(data.error?.message || "Nie udało się usunąć konta. Spróbuj ponownie później.");
         setIsDeleting(false);
       }
-    } catch (err) {
+    } catch {
       setError("Błąd połączenia. Sprawdź swoje połączenie internetowe");
       setIsDeleting(false);
     }
