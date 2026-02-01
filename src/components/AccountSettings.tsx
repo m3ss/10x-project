@@ -87,9 +87,7 @@ export function AccountSettings({ user }: AccountSettingsProps) {
         <Card className="border-destructive">
           <CardHeader>
             <CardTitle className="text-destructive">Niebezpieczna strefa</CardTitle>
-            <CardDescription>
-              Nieodwracalne akcje dotyczące Twojego konta
-            </CardDescription>
+            <CardDescription>Nieodwracalne akcje dotyczące Twojego konta</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {error && <ErrorNotification message={error} type="error" />}
@@ -98,7 +96,8 @@ export function AccountSettings({ user }: AccountSettingsProps) {
               <div className="space-y-2">
                 <h3 className="font-semibold text-destructive">Usuń konto</h3>
                 <p className="text-sm text-muted-foreground">
-                  Usunięcie konta jest <strong>trwałe i nieodwracalne</strong>. Wszystkie Twoje dane zostaną permanentnie usunięte:
+                  Usunięcie konta jest <strong>trwałe i nieodwracalne</strong>. Wszystkie Twoje dane zostaną
+                  permanentnie usunięte:
                 </p>
                 <ul className="ml-6 list-disc text-sm text-muted-foreground">
                   <li>Wszystkie Twoje fiszki</li>
@@ -120,8 +119,8 @@ export function AccountSettings({ user }: AccountSettingsProps) {
                     <AlertDialogTitle>Czy na pewno chcesz usunąć swoje konto?</AlertDialogTitle>
                     <AlertDialogDescription className="space-y-4">
                       <p>
-                        Ta akcja jest <strong>nieodwracalna</strong>. Wszystkie Twoje dane zostaną
-                        trwale usunięte z naszych serwerów.
+                        Ta akcja jest <strong>nieodwracalna</strong>. Wszystkie Twoje dane zostaną trwale usunięte z
+                        naszych serwerów.
                       </p>
                       <div className="space-y-2">
                         <Label htmlFor="confirmText">
@@ -140,7 +139,9 @@ export function AccountSettings({ user }: AccountSettingsProps) {
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isDeleting} data-testid="delete-account-cancel">Anuluj</AlertDialogCancel>
+                    <AlertDialogCancel disabled={isDeleting} data-testid="delete-account-cancel">
+                      Anuluj
+                    </AlertDialogCancel>
                     <AlertDialogAction
                       onClick={handleDeleteAccount}
                       disabled={isDeleting || confirmText !== "USUŃ KONTO"}

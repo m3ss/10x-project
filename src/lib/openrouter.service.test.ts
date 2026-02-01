@@ -68,9 +68,7 @@ async function testStructuredResponse() {
       answer: string;
     }
 
-    const response = await service.sendChatMessage<QuizResponse>(
-      "Generate one quiz question about JavaScript."
-    );
+    const response = await service.sendChatMessage<QuizResponse>("Generate one quiz question about JavaScript.");
 
     console.log("✅ Question:", response.question);
     console.log("✅ Answer:", response.answer);
@@ -139,7 +137,7 @@ and provides additional features like interfaces, enums, and generics.
     `.trim();
 
     interface FlashcardResponse {
-      flashcards: Array<{ front: string; back: string }>;
+      flashcards: { front: string; back: string }[];
     }
 
     const response = await service.sendChatMessage<FlashcardResponse>(
@@ -288,4 +286,10 @@ if (require.main === module) {
   });
 }
 
-export { testBasicResponse, testStructuredResponse, testFlashcardGeneration, testErrorHandling, testParameterConfiguration };
+export {
+  testBasicResponse,
+  testStructuredResponse,
+  testFlashcardGeneration,
+  testErrorHandling,
+  testParameterConfiguration,
+};

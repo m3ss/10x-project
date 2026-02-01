@@ -1,10 +1,10 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import type { 
-  FlashcardsCreateCommand, 
-  FlashcardDto, 
+import type {
+  FlashcardsCreateCommand,
+  FlashcardDto,
   FlashcardUpdateCommand,
-  FlashcardsListResponseDto 
+  FlashcardsListResponseDto,
 } from "../../types";
 import { FlashcardService } from "../../lib/flashcard.service";
 
@@ -61,22 +61,24 @@ const flashcardsCreateSchema = z.object({
 /**
  * Validation schema for PUT /flashcards/{id} endpoint
  */
-const flashcardUpdateSchema = z.object({
-  front: z
-    .string()
-    .min(1, "Front cannot be empty")
-    .max(200, "Front cannot exceed 200 characters")
-    .transform((val) => val.trim())
-    .optional(),
-  back: z
-    .string()
-    .min(1, "Back cannot be empty")
-    .max(500, "Back cannot exceed 500 characters")
-    .transform((val) => val.trim())
-    .optional(),
-}).refine((data) => data.front !== undefined || data.back !== undefined, {
-  message: "At least one field (front or back) must be provided",
-});
+const flashcardUpdateSchema = z
+  .object({
+    front: z
+      .string()
+      .min(1, "Front cannot be empty")
+      .max(200, "Front cannot exceed 200 characters")
+      .transform((val) => val.trim())
+      .optional(),
+    back: z
+      .string()
+      .min(1, "Back cannot be empty")
+      .max(500, "Back cannot exceed 500 characters")
+      .transform((val) => val.trim())
+      .optional(),
+  })
+  .refine((data) => data.front !== undefined || data.back !== undefined, {
+    message: "At least one field (front or back) must be provided",
+  });
 
 /**
  * POST /api/flashcards
@@ -156,10 +158,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const flashcardService = new FlashcardService(locals.supabase);
 
     // Create flashcards with authenticated user's ID
-    const createdFlashcards: FlashcardDto[] = await flashcardService.createFlashcards(
-      command.flashcards,
-      userId
-    );
+    const createdFlashcards: FlashcardDto[] = await flashcardService.createFlashcards(command.flashcards, userId);
 
     // Return successful response with 201 status
     return new Response(
@@ -329,9 +328,9 @@ export const GET: APIRoute = async ({ url, locals }) => {
       userId,
       page,
       limit,
-      sort as 'created_at' | 'updated_at' | 'front',
-      order as 'asc' | 'desc',
-      source as 'ai-full' | 'ai-edited' | 'manual' | undefined
+      sort as "created_at" | "updated_at" | "front",
+      order as "asc" | "desc",
+      source as "ai-full" | "ai-edited" | "manual" | undefined
     );
 
     // Return successful response

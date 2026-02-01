@@ -1,9 +1,9 @@
-import type { Page, Locator } from '@playwright/test';
-import { BasePage } from './BasePage';
+import type { Page, Locator } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
 /**
  * Settings Page Object Model
- * 
+ *
  * Encapsulates all interactions with the account settings page
  */
 export class SettingsPage extends BasePage {
@@ -19,23 +19,23 @@ export class SettingsPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     // Initialize locators using data-testid
-    this.accountSettings = page.getByTestId('account-settings');
-    this.accountEmail = page.getByTestId('account-email');
-    this.accountId = page.getByTestId('account-id');
-    this.deleteAccountButton = page.getByTestId('delete-account-button');
-    this.deleteAccountDialog = page.getByTestId('delete-account-dialog');
-    this.deleteAccountConfirmInput = page.getByTestId('delete-account-confirm-input');
-    this.deleteAccountCancel = page.getByTestId('delete-account-cancel');
-    this.deleteAccountConfirm = page.getByTestId('delete-account-confirm');
+    this.accountSettings = page.getByTestId("account-settings");
+    this.accountEmail = page.getByTestId("account-email");
+    this.accountId = page.getByTestId("account-id");
+    this.deleteAccountButton = page.getByTestId("delete-account-button");
+    this.deleteAccountDialog = page.getByTestId("delete-account-dialog");
+    this.deleteAccountConfirmInput = page.getByTestId("delete-account-confirm-input");
+    this.deleteAccountCancel = page.getByTestId("delete-account-cancel");
+    this.deleteAccountConfirm = page.getByTestId("delete-account-confirm");
   }
 
   /**
    * Navigate to settings page
    */
   async goto() {
-    await super.goto('/settings');
+    await super.goto("/settings");
     await this.waitForElement(this.accountSettings);
   }
 
@@ -94,7 +94,7 @@ export class SettingsPage extends BasePage {
    */
   async isDeleting(): Promise<boolean> {
     const buttonText = await this.deleteAccountConfirm.textContent();
-    return buttonText?.includes('Usuwanie...') || false;
+    return buttonText?.includes("Usuwanie...") || false;
   }
 
   /**
@@ -102,7 +102,7 @@ export class SettingsPage extends BasePage {
    */
   async deleteAccount() {
     await this.clickDeleteAccount();
-    await this.enterDeleteConfirmation('USUŃ KONTO');
+    await this.enterDeleteConfirmation("USUŃ KONTO");
     await this.confirmAccountDeletion();
   }
 
@@ -110,6 +110,6 @@ export class SettingsPage extends BasePage {
    * Wait for redirect after account deletion
    */
   async waitForRedirectAfterDeletion() {
-    await this.page.waitForURL('**/?message=*', { timeout: 10000 });
+    await this.page.waitForURL("**/?message=*", { timeout: 10000 });
   }
 }

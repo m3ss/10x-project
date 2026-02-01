@@ -17,34 +17,32 @@ const PUBLIC_PATHS = [
   "/api/auth/logout",
 ];
 
-export const onRequest = defineMiddleware(
-  async ({ locals, cookies, url, request, redirect }, next) => {
-    // Create Supabase client with SSR support
-    const supabase = createSupabaseServerInstance({
-      cookies,
-      headers: request.headers,
-    });
+export const onRequest = defineMiddleware(async ({ locals, cookies, url, request, redirect }, next) => {
+  // Create Supabase client with SSR support
+  const supabase = createSupabaseServerInstance({
+    cookies,
+    headers: request.headers,
+  });
 
-    // Make supabase client available in all routes
-    locals.supabase = supabase;
+  // Make supabase client available in all routes
+  locals.supabase = supabase;
 
-    // Skip auth check for public paths
-    if (PUBLIC_PATHS.includes(url.pathname)) {
-      return next();
-    }
-
-    // IMPORTANT: Always get user session first before any other operations
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (user) {
-      locals.user = user;
-    } else {
-      // Redirect to login for protected routes
-      return redirect(`/login?redirect=${encodeURIComponent(url.pathname)}`);
-    }
-
+  // Skip auth check for public paths
+  if (PUBLIC_PATHS.includes(url.pathname)) {
     return next();
-  },
-);
+  }
+
+  // IMPORTANT: Always get user session first before any other operations
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    locals.user = user;
+  } else {
+    // Redirect to login for protected routes
+    return redirect(`/login?redirect=${encodeURIComponent(url.pathname)}`);
+  }
+
+  return next();
+});

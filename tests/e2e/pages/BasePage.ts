@@ -1,8 +1,8 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from "@playwright/test";
 
 /**
  * Base Page Object Model
- * 
+ *
  * This class provides common functionality for all page objects:
  * - Navigation helpers
  * - Common selectors
@@ -14,13 +14,13 @@ export abstract class BasePage {
 
   constructor(page: Page) {
     this.page = page;
-    this.baseURL = process.env.BASE_URL || 'http://localhost:4321';
+    this.baseURL = process.env.BASE_URL || "http://localhost:4321";
   }
 
   /**
    * Navigate to a specific path
    */
-  async goto(path: string = '/') {
+  async goto(path = "/") {
     await this.page.goto(`${this.baseURL}${path}`);
   }
 
@@ -28,7 +28,7 @@ export abstract class BasePage {
    * Wait for page to be fully loaded
    */
   async waitForPageLoad() {
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -48,8 +48,8 @@ export abstract class BasePage {
   /**
    * Wait for an element to be visible
    */
-  async waitForElement(locator: Locator, timeout: number = 5000) {
-    await locator.waitFor({ state: 'visible', timeout });
+  async waitForElement(locator: Locator, timeout = 5000) {
+    await locator.waitFor({ state: "visible", timeout });
   }
 
   /**
@@ -70,7 +70,7 @@ export abstract class BasePage {
    * Get text content
    */
   async getTextContent(locator: Locator): Promise<string> {
-    return (await locator.textContent()) || '';
+    return (await locator.textContent()) || "";
   }
 
   /**

@@ -1,8 +1,8 @@
-import type { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from "@playwright/test";
 
 /**
  * Authenticated Navbar Component Object Model
- * 
+ *
  * Encapsulates interactions with the authenticated navbar
  */
 export class NavbarComponent {
@@ -22,20 +22,20 @@ export class NavbarComponent {
 
   constructor(page: Page) {
     this.page = page;
-    
+
     // Initialize locators using data-testid
-    this.navbar = page.getByTestId('authenticated-navbar');
-    this.logoLink = page.getByTestId('logo-link');
-    this.navMyFlashcards = page.getByTestId('nav-my-flashcards');
-    this.navGenerate = page.getByTestId('nav-generate');
-    this.themeToggle = page.getByTestId('theme-toggle');
-    this.userMenuTrigger = page.getByTestId('user-menu-trigger');
-    this.userMenuContent = page.getByTestId('user-menu-content');
-    this.userMenuEmail = page.getByTestId('user-menu-email');
-    this.menuMyFlashcards = page.getByTestId('menu-my-flashcards');
-    this.menuGenerate = page.getByTestId('menu-generate');
-    this.menuSettings = page.getByTestId('menu-settings');
-    this.menuLogout = page.getByTestId('menu-logout');
+    this.navbar = page.getByTestId("authenticated-navbar");
+    this.logoLink = page.getByTestId("logo-link");
+    this.navMyFlashcards = page.getByTestId("nav-my-flashcards");
+    this.navGenerate = page.getByTestId("nav-generate");
+    this.themeToggle = page.getByTestId("theme-toggle");
+    this.userMenuTrigger = page.getByTestId("user-menu-trigger");
+    this.userMenuContent = page.getByTestId("user-menu-content");
+    this.userMenuEmail = page.getByTestId("user-menu-email");
+    this.menuMyFlashcards = page.getByTestId("menu-my-flashcards");
+    this.menuGenerate = page.getByTestId("menu-generate");
+    this.menuSettings = page.getByTestId("menu-settings");
+    this.menuLogout = page.getByTestId("menu-logout");
   }
 
   /**
@@ -78,7 +78,7 @@ export class NavbarComponent {
    */
   async openUserMenu() {
     await this.userMenuTrigger.click();
-    await this.userMenuContent.waitFor({ state: 'visible' });
+    await this.userMenuContent.waitFor({ state: "visible" });
   }
 
   /**
@@ -86,7 +86,7 @@ export class NavbarComponent {
    */
   async getUserEmail(): Promise<string> {
     await this.openUserMenu();
-    return await this.userMenuEmail.textContent() || '';
+    return (await this.userMenuEmail.textContent()) || "";
   }
 
   /**
@@ -126,13 +126,13 @@ export class NavbarComponent {
    */
   async isLoggingOut(): Promise<boolean> {
     const text = await this.menuLogout.textContent();
-    return text?.includes('Wylogowywanie...') || false;
+    return text?.includes("Wylogowywanie...") || false;
   }
 
   /**
    * Wait for redirect after logout
    */
   async waitForLogoutRedirect() {
-    await this.page.waitForURL('**/', { timeout: 10000 });
+    await this.page.waitForURL("**/", { timeout: 10000 });
   }
 }

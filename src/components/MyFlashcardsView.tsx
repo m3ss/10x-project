@@ -81,13 +81,7 @@ export function MyFlashcardsView() {
             </p>
           </div>
           <Button onClick={() => setIsCreateDialogOpen(true)} data-testid="create-flashcard-button">
-            <svg
-              className="mr-2 h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
+            <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
             Dodaj fiszkę
@@ -138,7 +132,10 @@ export function MyFlashcardsView() {
 
         {/* Empty State */}
         {!isLoading && flashcards.length === 0 && (
-          <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-12 text-center dark:border-neutral-800 dark:bg-neutral-900" data-testid="empty-state">
+          <div
+            className="rounded-lg border border-neutral-200 bg-neutral-50 p-12 text-center dark:border-neutral-800 dark:bg-neutral-900"
+            data-testid="empty-state"
+          >
             <svg
               className="mx-auto h-16 w-16 text-neutral-400 dark:text-neutral-600"
               fill="none"
@@ -172,12 +169,7 @@ export function MyFlashcardsView() {
         {!isLoading && flashcards.length > 0 && (
           <div className="space-y-4" data-testid="flashcards-list">
             {flashcards.map((flashcard) => (
-              <FlashcardCard
-                key={flashcard.id}
-                flashcard={flashcard}
-                onDelete={handleDelete}
-                onUpdate={handleUpdate}
-              />
+              <FlashcardCard key={flashcard.id} flashcard={flashcard} onDelete={handleDelete} onUpdate={handleUpdate} />
             ))}
           </div>
         )}

@@ -1,9 +1,9 @@
-import type { Page, Locator } from '@playwright/test';
-import { BasePage } from './BasePage';
+import type { Page, Locator } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
 /**
  * Generate Flashcards Page Object Model
- * 
+ *
  * Encapsulates all interactions with the flashcard generation page
  */
 export class GeneratePage extends BasePage {
@@ -22,26 +22,26 @@ export class GeneratePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     // Initialize locators using data-testid
-    this.generationView = page.getByTestId('flashcard-generation-view');
-    this.textInputArea = page.getByTestId('text-input-area');
-    this.textInputTextarea = page.getByTestId('text-input-textarea');
-    this.characterCount = page.getByTestId('character-count');
-    this.generateButton = page.getByTestId('generate-button');
-    this.resetButton = page.getByTestId('reset-button');
-    this.bulkSaveButton = page.getByTestId('bulk-save-button');
-    this.saveAllButton = page.getByTestId('save-all-button');
-    this.saveAcceptedButton = page.getByTestId('save-accepted-button');
-    this.totalFlashcardsCount = page.getByTestId('total-flashcards-count');
-    this.acceptedFlashcardsCount = page.getByTestId('accepted-flashcards-count');
+    this.generationView = page.getByTestId("flashcard-generation-view");
+    this.textInputArea = page.getByTestId("text-input-area");
+    this.textInputTextarea = page.getByTestId("text-input-textarea");
+    this.characterCount = page.getByTestId("character-count");
+    this.generateButton = page.getByTestId("generate-button");
+    this.resetButton = page.getByTestId("reset-button");
+    this.bulkSaveButton = page.getByTestId("bulk-save-button");
+    this.saveAllButton = page.getByTestId("save-all-button");
+    this.saveAcceptedButton = page.getByTestId("save-accepted-button");
+    this.totalFlashcardsCount = page.getByTestId("total-flashcards-count");
+    this.acceptedFlashcardsCount = page.getByTestId("accepted-flashcards-count");
   }
 
   /**
    * Navigate to generate page
    */
   async goto() {
-    await super.goto('/generate');
+    await super.goto("/generate");
     await this.waitForElement(this.generationView);
   }
 
@@ -85,13 +85,13 @@ export class GeneratePage extends BasePage {
    */
   async isGenerating(): Promise<boolean> {
     const buttonText = await this.generateButton.textContent();
-    return buttonText?.includes('Generowanie...') || false;
+    return buttonText?.includes("Generowanie...") || false;
   }
 
   /**
    * Wait for flashcards to be generated
    */
-  async waitForGeneration(timeout: number = 30000) {
+  async waitForGeneration(timeout = 30000) {
     await this.waitForElement(this.bulkSaveButton, timeout);
   }
 
@@ -144,7 +144,7 @@ export class GeneratePage extends BasePage {
    */
   async isSaving(): Promise<boolean> {
     const buttonText = await this.saveAllButton.textContent();
-    return buttonText?.includes('Zapisywanie...') || false;
+    return buttonText?.includes("Zapisywanie...") || false;
   }
 
   /**

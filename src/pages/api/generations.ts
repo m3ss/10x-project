@@ -94,10 +94,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const generationService = new GenerationService(locals.supabase);
 
     // Call generation service with authenticated user's ID
-    const result: GenerationCreateResponseDto = await generationService.generateFlashcards(
-      command.source_text,
-      userId
-    );
+    const result: GenerationCreateResponseDto = await generationService.generateFlashcards(command.source_text, userId);
 
     // Return successful response with 201 status
     return new Response(JSON.stringify(result), {

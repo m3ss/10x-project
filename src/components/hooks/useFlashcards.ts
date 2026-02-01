@@ -27,58 +27,55 @@ export function useFlashcards(): UseFlashcardsResult {
   /**
    * Fetch flashcards from the API
    */
-  const fetchFlashcards = useCallback(
-    async (page: number = 1, limit: number = 20, source?: string) => {
-      setIsLoading(true);
-      setError(null);
-      setCurrentPage(page);
-      setCurrentLimit(limit);
-      setCurrentSource(source);
+  const fetchFlashcards = useCallback(async (page = 1, limit = 20, source?: string) => {
+    setIsLoading(true);
+    setError(null);
+    setCurrentPage(page);
+    setCurrentLimit(limit);
+    setCurrentSource(source);
 
-      try {
-        const params = new URLSearchParams({
-          page: page.toString(),
-          limit: limit.toString(),
-          sort: "created_at",
-          order: "desc",
-        });
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        sort: "created_at",
+        order: "desc",
+      });
 
-        if (source) {
-          params.append("source", source);
-        }
-
-        console.log("[useFlashcards] Fetching flashcards with params:", params.toString());
-
-        const response = await fetch(`/api/flashcards?${params.toString()}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "same-origin",
-        });
-
-        console.log("[useFlashcards] Response status:", response.status);
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error("[useFlashcards] Error response:", errorData);
-          throw new Error(errorData.message || "Nie udało się pobrać fiszek");
-        }
-
-        const data: FlashcardsListResponseDto = await response.json();
-        console.log("[useFlashcards] Success! Received flashcards:", data);
-        setFlashcards(data.data);
-        setPagination(data.pagination);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "Wystąpił nieoczekiwany błąd";
-        setError(errorMessage);
-        console.error("Error fetching flashcards:", err);
-      } finally {
-        setIsLoading(false);
+      if (source) {
+        params.append("source", source);
       }
-    },
-    []
-  );
+
+      console.log("[useFlashcards] Fetching flashcards with params:", params.toString());
+
+      const response = await fetch(`/api/flashcards?${params.toString()}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "same-origin",
+      });
+
+      console.log("[useFlashcards] Response status:", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("[useFlashcards] Error response:", errorData);
+        throw new Error(errorData.message || "Nie udało się pobrać fiszek");
+      }
+
+      const data: FlashcardsListResponseDto = await response.json();
+      console.log("[useFlashcards] Success! Received flashcards:", data);
+      setFlashcards(data.data);
+      setPagination(data.pagination);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Wystąpił nieoczekiwany błąd";
+      setError(errorMessage);
+      console.error("Error fetching flashcards:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   /**
    * Refresh flashcards with current parameters

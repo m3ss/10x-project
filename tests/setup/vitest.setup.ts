@@ -1,10 +1,10 @@
-import { expect, afterEach, vi } from 'vitest';
-import { cleanup } from '@testing-library/react';
-import '@testing-library/jest-dom/vitest';
+import { expect, afterEach, vi } from "vitest";
+import { cleanup } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
 
 /**
  * Vitest Setup File
- * 
+ *
  * This file runs before all tests and sets up:
  * - Testing Library cleanup
  * - Custom matchers from jest-dom
@@ -19,7 +19,7 @@ afterEach(() => {
 });
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
     matches: false,
@@ -58,4 +58,4 @@ expect.extend({
 });
 
 // Set test environment variables
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = "test";

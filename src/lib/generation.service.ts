@@ -72,10 +72,10 @@ const FLASHCARD_SCHEMA = {
  * Response structure from AI service
  */
 interface AIFlashcardResponse {
-  flashcards: Array<{
+  flashcards: {
     front: string;
     back: string;
-  }>;
+  }[];
 }
 
 /**
@@ -157,10 +157,7 @@ export class GenerationService {
         );
 
         // Debug: Log the raw response
-        console.log(
-          "[GenerationService] Raw AI response:",
-          JSON.stringify(response, null, 2).substring(0, 500)
-        );
+        console.log("[GenerationService] Raw AI response:", JSON.stringify(response, null, 2).substring(0, 500));
 
         // Validate response structure
         if (!response.flashcards || !Array.isArray(response.flashcards)) {

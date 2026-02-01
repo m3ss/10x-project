@@ -1,9 +1,9 @@
-import type { Page, Locator } from '@playwright/test';
-import { BasePage } from './BasePage';
+import type { Page, Locator } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
 /**
  * Register Page Object Model
- * 
+ *
  * Encapsulates all interactions with the register page
  */
 export class RegisterPage extends BasePage {
@@ -19,23 +19,23 @@ export class RegisterPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     // Initialize locators using data-testid
-    this.registerForm = page.getByTestId('register-form');
-    this.emailInput = page.getByTestId('register-email-input');
-    this.passwordInput = page.getByTestId('register-password-input');
-    this.confirmPasswordInput = page.getByTestId('register-confirm-password-input');
-    this.submitButton = page.getByTestId('register-submit-button');
-    this.errorMessage = page.getByTestId('register-error');
-    this.loginLink = page.getByTestId('login-link');
-    this.passwordStrength = page.getByTestId('password-strength');
+    this.registerForm = page.getByTestId("register-form");
+    this.emailInput = page.getByTestId("register-email-input");
+    this.passwordInput = page.getByTestId("register-password-input");
+    this.confirmPasswordInput = page.getByTestId("register-confirm-password-input");
+    this.submitButton = page.getByTestId("register-submit-button");
+    this.errorMessage = page.getByTestId("register-error");
+    this.loginLink = page.getByTestId("login-link");
+    this.passwordStrength = page.getByTestId("password-strength");
   }
 
   /**
    * Navigate to register page
    */
   async goto() {
-    await super.goto('/register');
+    await super.goto("/register");
     await this.waitForElement(this.registerForm);
   }
 
@@ -94,7 +94,7 @@ export class RegisterPage extends BasePage {
   /**
    * Wait for redirect after successful registration
    */
-  async waitForRedirect(expectedPath: string = '/generate') {
+  async waitForRedirect(expectedPath = "/generate") {
     await this.page.waitForURL(`**${expectedPath}`, { timeout: 10000 });
   }
 
@@ -103,6 +103,6 @@ export class RegisterPage extends BasePage {
    */
   async isLoading(): Promise<boolean> {
     const loadingText = await this.submitButton.textContent();
-    return loadingText?.includes('Tworzenie konta...') || false;
+    return loadingText?.includes("Tworzenie konta...") || false;
   }
 }

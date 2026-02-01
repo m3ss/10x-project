@@ -1,9 +1,9 @@
-import type { Page, Locator } from '@playwright/test';
-import { BasePage } from './BasePage';
+import type { Page, Locator } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
 /**
  * My Flashcards Page Object Model
- * 
+ *
  * Encapsulates all interactions with the my flashcards page
  */
 export class MyFlashcardsPage extends BasePage {
@@ -25,29 +25,29 @@ export class MyFlashcardsPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     // Initialize locators using data-testid
-    this.myFlashcardsView = page.getByTestId('my-flashcards-view');
-    this.totalCount = page.getByTestId('flashcards-total-count');
-    this.createButton = page.getByTestId('create-flashcard-button');
-    this.filters = page.getByTestId('flashcard-filters');
-    this.filterAll = page.getByTestId('filter-all');
-    this.filterAiFull = page.getByTestId('filter-ai-full');
-    this.filterAiEdited = page.getByTestId('filter-ai-edited');
-    this.filterManual = page.getByTestId('filter-manual');
-    this.flashcardsList = page.getByTestId('flashcards-list');
-    this.emptyState = page.getByTestId('empty-state');
-    this.pagination = page.getByTestId('pagination');
-    this.paginationInfo = page.getByTestId('pagination-info');
-    this.paginationPrevious = page.getByTestId('pagination-previous');
-    this.paginationNext = page.getByTestId('pagination-next');
+    this.myFlashcardsView = page.getByTestId("my-flashcards-view");
+    this.totalCount = page.getByTestId("flashcards-total-count");
+    this.createButton = page.getByTestId("create-flashcard-button");
+    this.filters = page.getByTestId("flashcard-filters");
+    this.filterAll = page.getByTestId("filter-all");
+    this.filterAiFull = page.getByTestId("filter-ai-full");
+    this.filterAiEdited = page.getByTestId("filter-ai-edited");
+    this.filterManual = page.getByTestId("filter-manual");
+    this.flashcardsList = page.getByTestId("flashcards-list");
+    this.emptyState = page.getByTestId("empty-state");
+    this.pagination = page.getByTestId("pagination");
+    this.paginationInfo = page.getByTestId("pagination-info");
+    this.paginationPrevious = page.getByTestId("pagination-previous");
+    this.paginationNext = page.getByTestId("pagination-next");
   }
 
   /**
    * Navigate to my flashcards page
    */
   async goto() {
-    await super.goto('/my-flashcards');
+    await super.goto("/my-flashcards");
     await this.waitForElement(this.myFlashcardsView);
   }
 
@@ -68,18 +68,18 @@ export class MyFlashcardsPage extends BasePage {
   /**
    * Apply filter
    */
-  async applyFilter(filter: 'all' | 'ai-full' | 'ai-edited' | 'manual') {
+  async applyFilter(filter: "all" | "ai-full" | "ai-edited" | "manual") {
     switch (filter) {
-      case 'all':
+      case "all":
         await this.clickButton(this.filterAll);
         break;
-      case 'ai-full':
+      case "ai-full":
         await this.clickButton(this.filterAiFull);
         break;
-      case 'ai-edited':
+      case "ai-edited":
         await this.clickButton(this.filterAiEdited);
         break;
-      case 'manual':
+      case "manual":
         await this.clickButton(this.filterManual);
         break;
     }
@@ -125,7 +125,7 @@ export class MyFlashcardsPage extends BasePage {
    */
   async clickEditFlashcard(id: number) {
     const card = this.getFlashcardCard(id);
-    await card.getByTestId('edit-flashcard-button').click();
+    await card.getByTestId("edit-flashcard-button").click();
   }
 
   /**
@@ -133,7 +133,7 @@ export class MyFlashcardsPage extends BasePage {
    */
   async clickDeleteFlashcard(id: number) {
     const card = this.getFlashcardCard(id);
-    await card.getByTestId('delete-flashcard-button').click();
+    await card.getByTestId("delete-flashcard-button").click();
   }
 
   /**
@@ -141,7 +141,7 @@ export class MyFlashcardsPage extends BasePage {
    */
   async flipFlashcard(id: number) {
     const card = this.getFlashcardCard(id);
-    await card.getByTestId('flashcard-flip-area').click();
+    await card.getByTestId("flashcard-flip-area").click();
   }
 
   /**

@@ -1,11 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "../db/database.types";
-import type { 
-  FlashcardCreateDto, 
-  FlashcardDto, 
+import type {
+  FlashcardCreateDto,
+  FlashcardDto,
   FlashcardUpdateDto,
   FlashcardsListResponseDto,
-  PaginationDto 
+  PaginationDto,
 } from "../types";
 
 /**
@@ -95,11 +95,11 @@ export class FlashcardService {
    */
   async getFlashcards(
     userId: string,
-    page: number = 1,
-    limit: number = 20,
-    sortField: 'created_at' | 'updated_at' | 'front' = 'created_at',
-    sortOrder: 'asc' | 'desc' = 'desc',
-    source?: 'ai-full' | 'ai-edited' | 'manual'
+    page = 1,
+    limit = 20,
+    sortField: "created_at" | "updated_at" | "front" = "created_at",
+    sortOrder: "asc" | "desc" = "desc",
+    source?: "ai-full" | "ai-edited" | "manual"
   ): Promise<FlashcardsListResponseDto> {
     // Validate pagination parameters
     if (page < 1) {
@@ -124,7 +124,7 @@ export class FlashcardService {
     }
 
     // Apply sorting
-    query = query.order(sortField, { ascending: sortOrder === 'asc' });
+    query = query.order(sortField, { ascending: sortOrder === "asc" });
 
     // Apply pagination
     query = query.range(from, to);
@@ -188,11 +188,7 @@ export class FlashcardService {
    * @returns Updated flashcard DTO
    * @throws Error if flashcard not found or database operation fails
    */
-  async updateFlashcard(
-    flashcardId: number,
-    userId: string,
-    updates: FlashcardUpdateDto
-  ): Promise<FlashcardDto> {
+  async updateFlashcard(flashcardId: number, userId: string, updates: FlashcardUpdateDto): Promise<FlashcardDto> {
     // Validate updates
     if (updates.front !== undefined) {
       if (!updates.front || updates.front.trim().length === 0) {
@@ -267,11 +263,7 @@ export class FlashcardService {
    * @throws Error if flashcard not found or database operation fails
    */
   async deleteFlashcard(flashcardId: number, userId: string): Promise<void> {
-    const { error } = await this.supabase
-      .from("flashcards")
-      .delete()
-      .eq("id", flashcardId)
-      .eq("user_id", userId);
+    const { error } = await this.supabase.from("flashcards").delete().eq("id", flashcardId).eq("user_id", userId);
 
     if (error) {
       console.error("Database error during flashcard deletion:", error);

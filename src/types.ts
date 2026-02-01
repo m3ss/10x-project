@@ -152,7 +152,7 @@ export interface LoginFormProps {
 export interface RegisterFormProps {}
 
 export interface ResetPasswordFormProps {
-  mode: 'request' | 'update';
+  mode: "request" | "update";
   accessToken?: string;
 }
 
@@ -175,8 +175,8 @@ export interface FlashcardListFilters {
 }
 
 export interface FlashcardListSort {
-  field: 'created_at' | 'updated_at' | 'front';
-  order: 'asc' | 'desc';
+  field: "created_at" | "updated_at" | "front";
+  order: "asc" | "desc";
 }
 
 export interface FlashcardWithActions extends FlashcardDto {
@@ -184,17 +184,17 @@ export interface FlashcardWithActions extends FlashcardDto {
 }
 
 export type AuthErrorCode =
-  | 'INVALID_CREDENTIALS'
-  | 'EMAIL_ALREADY_EXISTS'
-  | 'WEAK_PASSWORD'
-  | 'INVALID_EMAIL'
-  | 'EMAIL_NOT_VERIFIED'
-  | 'INVALID_RESET_TOKEN'
-  | 'NETWORK_ERROR'
-  | 'SERVER_ERROR'
-  | 'UNAUTHORIZED'
-  | 'INVALID_CONFIRMATION'
-  | 'ACCOUNT_DELETION_FAILED';
+  | "INVALID_CREDENTIALS"
+  | "EMAIL_ALREADY_EXISTS"
+  | "WEAK_PASSWORD"
+  | "INVALID_EMAIL"
+  | "EMAIL_NOT_VERIFIED"
+  | "INVALID_RESET_TOKEN"
+  | "NETWORK_ERROR"
+  | "SERVER_ERROR"
+  | "UNAUTHORIZED"
+  | "INVALID_CONFIRMATION"
+  | "ACCOUNT_DELETION_FAILED";
 
 export interface AuthError {
   code: AuthErrorCode;

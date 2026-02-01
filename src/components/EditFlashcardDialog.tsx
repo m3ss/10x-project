@@ -19,13 +19,7 @@ interface EditFlashcardDialogProps {
   initialBack: string;
 }
 
-export function EditFlashcardDialog({
-  isOpen,
-  onClose,
-  onSave,
-  initialFront,
-  initialBack,
-}: EditFlashcardDialogProps) {
+export function EditFlashcardDialog({ isOpen, onClose, onSave, initialFront, initialBack }: EditFlashcardDialogProps) {
   const [front, setFront] = useState(initialFront);
   const [back, setBack] = useState(initialBack);
   const [errors, setErrors] = useState<{ front?: string; back?: string }>({});
@@ -86,9 +80,7 @@ export function EditFlashcardDialog({
           <div className="space-y-2">
             <Label htmlFor="edit-front">
               Przód fiszki
-              <span className="ml-1 text-xs text-neutral-500 dark:text-neutral-400">
-                ({front.length}/200)
-              </span>
+              <span className="ml-1 text-xs text-neutral-500 dark:text-neutral-400">({front.length}/200)</span>
             </Label>
             <textarea
               id="edit-front"
@@ -99,16 +91,18 @@ export function EditFlashcardDialog({
               placeholder="Wpisz pytanie lub pojęcie..."
               maxLength={200}
             />
-            {errors.front && <p className="text-sm text-red-600 dark:text-red-400" data-testid="edit-front-error">{errors.front}</p>}
+            {errors.front && (
+              <p className="text-sm text-red-600 dark:text-red-400" data-testid="edit-front-error">
+                {errors.front}
+              </p>
+            )}
           </div>
 
           {/* Back field */}
           <div className="space-y-2">
             <Label htmlFor="edit-back">
               Tył fiszki
-              <span className="ml-1 text-xs text-neutral-500 dark:text-neutral-400">
-                ({back.length}/500)
-              </span>
+              <span className="ml-1 text-xs text-neutral-500 dark:text-neutral-400">({back.length}/500)</span>
             </Label>
             <textarea
               id="edit-back"
@@ -119,7 +113,11 @@ export function EditFlashcardDialog({
               placeholder="Wpisz odpowiedź lub wyjaśnienie..."
               maxLength={500}
             />
-            {errors.back && <p className="text-sm text-red-600 dark:text-red-400" data-testid="edit-back-error">{errors.back}</p>}
+            {errors.back && (
+              <p className="text-sm text-red-600 dark:text-red-400" data-testid="edit-back-error">
+                {errors.back}
+              </p>
+            )}
           </div>
         </div>
 
@@ -127,7 +125,9 @@ export function EditFlashcardDialog({
           <Button variant="outline" onClick={handleCancel} data-testid="edit-cancel-button">
             Anuluj
           </Button>
-          <Button onClick={handleSave} data-testid="edit-save-button">Zapisz zmiany</Button>
+          <Button onClick={handleSave} data-testid="edit-save-button">
+            Zapisz zmiany
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

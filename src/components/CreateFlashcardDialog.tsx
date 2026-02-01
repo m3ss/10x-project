@@ -92,9 +92,7 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
           <div className="space-y-2">
             <Label htmlFor="create-front">
               Przód fiszki
-              <span className="ml-1 text-xs text-neutral-500 dark:text-neutral-400">
-                ({front.length}/200)
-              </span>
+              <span className="ml-1 text-xs text-neutral-500 dark:text-neutral-400">({front.length}/200)</span>
             </Label>
             <textarea
               id="create-front"
@@ -106,16 +104,18 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
               maxLength={200}
               disabled={isCreating}
             />
-            {errors.front && <p className="text-sm text-red-600 dark:text-red-400" data-testid="create-front-error">{errors.front}</p>}
+            {errors.front && (
+              <p className="text-sm text-red-600 dark:text-red-400" data-testid="create-front-error">
+                {errors.front}
+              </p>
+            )}
           </div>
 
           {/* Back field */}
           <div className="space-y-2">
             <Label htmlFor="create-back">
               Tył fiszki
-              <span className="ml-1 text-xs text-neutral-500 dark:text-neutral-400">
-                ({back.length}/500)
-              </span>
+              <span className="ml-1 text-xs text-neutral-500 dark:text-neutral-400">({back.length}/500)</span>
             </Label>
             <textarea
               id="create-back"
@@ -127,7 +127,11 @@ export function CreateFlashcardDialog({ isOpen, onClose, onSuccess }: CreateFlas
               maxLength={500}
               disabled={isCreating}
             />
-            {errors.back && <p className="text-sm text-red-600 dark:text-red-400" data-testid="create-back-error">{errors.back}</p>}
+            {errors.back && (
+              <p className="text-sm text-red-600 dark:text-red-400" data-testid="create-back-error">
+                {errors.back}
+              </p>
+            )}
           </div>
         </div>
 

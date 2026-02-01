@@ -2,9 +2,7 @@ import type { SupabaseClient, User, AuthError as SupabaseAuthError } from "@supa
 import type { AuthError, AuthErrorCode } from "../types";
 
 // Type for auth operation results
-type AuthResult<T> = 
-  | { success: true; data: T }
-  | { success: false; error: AuthError };
+type AuthResult<T> = { success: true; data: T } | { success: false; error: AuthError };
 
 /**
  * Login user with email and password
@@ -12,7 +10,7 @@ type AuthResult<T> =
 export async function loginUser(
   supabase: SupabaseClient,
   email: string,
-  password: string,
+  password: string
 ): Promise<AuthResult<{ user: User }>> {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -59,7 +57,7 @@ export async function registerUser(
   supabase: SupabaseClient,
   email: string,
   password: string,
-  emailRedirectUrl: string,
+  emailRedirectUrl: string
 ): Promise<AuthResult<{ userId: string }>> {
   try {
     const { data, error } = await supabase.auth.signUp({
@@ -105,9 +103,7 @@ export async function registerUser(
 /**
  * Logout current user
  */
-export async function logoutUser(
-  supabase: SupabaseClient,
-): Promise<AuthResult<void>> {
+export async function logoutUser(supabase: SupabaseClient): Promise<AuthResult<void>> {
   try {
     const { error } = await supabase.auth.signOut();
 
@@ -139,7 +135,7 @@ export async function logoutUser(
 export async function requestPasswordReset(
   supabase: SupabaseClient,
   email: string,
-  redirectUrl: string,
+  redirectUrl: string
 ): Promise<AuthResult<void>> {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -171,10 +167,7 @@ export async function requestPasswordReset(
 /**
  * Update user password (after clicking reset link)
  */
-export async function updatePassword(
-  supabase: SupabaseClient,
-  newPassword: string,
-): Promise<AuthResult<void>> {
+export async function updatePassword(supabase: SupabaseClient, newPassword: string): Promise<AuthResult<void>> {
   try {
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
@@ -205,10 +198,7 @@ export async function updatePassword(
 /**
  * Delete user account (requires admin client)
  */
-export async function deleteUserAccount(
-  supabaseAdmin: SupabaseClient,
-  userId: string,
-): Promise<AuthResult<void>> {
+export async function deleteUserAccount(supabaseAdmin: SupabaseClient, userId: string): Promise<AuthResult<void>> {
   try {
     const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
 
@@ -291,10 +281,7 @@ export function mapSupabaseError(error: SupabaseAuthError): AuthError {
   }
 
   // Email already exists
-  if (
-    errorMessage.includes("user already registered") ||
-    errorMessage.includes("email already exists")
-  ) {
+  if (errorMessage.includes("user already registered") || errorMessage.includes("email already exists")) {
     return {
       code: "EMAIL_ALREADY_EXISTS",
       message: "Konto z tym adresem email już istnieje",
@@ -302,10 +289,7 @@ export function mapSupabaseError(error: SupabaseAuthError): AuthError {
   }
 
   // Weak password
-  if (
-    errorMessage.includes("password") &&
-    (errorMessage.includes("weak") || errorMessage.includes("short"))
-  ) {
+  if (errorMessage.includes("password") && (errorMessage.includes("weak") || errorMessage.includes("short"))) {
     return {
       code: "WEAK_PASSWORD",
       message: "Hasło musi zawierać minimum 8 znaków, cyfrę i znak specjalny",
@@ -329,10 +313,7 @@ export function mapSupabaseError(error: SupabaseAuthError): AuthError {
   }
 
   // Invalid reset token
-  if (
-    errorMessage.includes("invalid token") ||
-    errorMessage.includes("token expired")
-  ) {
+  if (errorMessage.includes("invalid token") || errorMessage.includes("token expired")) {
     return {
       code: "INVALID_RESET_TOKEN",
       message: "Link resetujący hasło wygasł lub jest nieprawidłowy",

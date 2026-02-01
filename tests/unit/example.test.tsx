@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderWithProviders, screen, userEvent } from '../setup/test-utils';
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { renderWithProviders, screen, userEvent } from "../setup/test-utils";
 
 /**
  * Example Unit Test
- * 
+ *
  * This demonstrates:
  * - Component testing with React Testing Library
  * - User interaction simulation
@@ -20,31 +20,31 @@ function Button({ onClick, children }: { onClick: () => void; children: React.Re
   );
 }
 
-describe('Button Component', () => {
+describe("Button Component", () => {
   let mockOnClick: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     mockOnClick = vi.fn();
   });
 
-  it('should render button with correct text', () => {
+  it("should render button with correct text", () => {
     // Arrange
     renderWithProviders(<Button onClick={mockOnClick}>Click me</Button>);
 
     // Act
-    const button = screen.getByRole('button', { name: /click me/i });
+    const button = screen.getByRole("button", { name: /click me/i });
 
     // Assert
     expect(button).toBeInTheDocument();
   });
 
-  it('should call onClick handler when clicked', async () => {
+  it("should call onClick handler when clicked", async () => {
     // Arrange
     const user = userEvent.setup();
     renderWithProviders(<Button onClick={mockOnClick}>Click me</Button>);
 
     // Act
-    const button = screen.getByRole('button', { name: /click me/i });
+    const button = screen.getByRole("button", { name: /click me/i });
     await user.click(button);
 
     // Assert
@@ -52,8 +52,8 @@ describe('Button Component', () => {
   });
 });
 
-describe('Example utility function tests', () => {
-  it('should demonstrate basic assertion', () => {
+describe("Example utility function tests", () => {
+  it("should demonstrate basic assertion", () => {
     // Arrange
     const value = 2 + 2;
 
@@ -63,16 +63,16 @@ describe('Example utility function tests', () => {
     expect(value).toBeLessThan(5);
   });
 
-  it('should demonstrate string matching', () => {
+  it("should demonstrate string matching", () => {
     // Arrange
-    const message = 'Hello World';
+    const message = "Hello World";
 
     // Assert
-    expect(message).toContain('World');
+    expect(message).toContain("World");
     expect(message).toMatch(/hello/i);
   });
 
-  it('should demonstrate array assertions', () => {
+  it("should demonstrate array assertions", () => {
     // Arrange
     const array = [1, 2, 3, 4, 5];
 
@@ -83,32 +83,32 @@ describe('Example utility function tests', () => {
   });
 });
 
-describe('Example mock tests', () => {
-  it('should demonstrate function mocking with vi.fn()', () => {
+describe("Example mock tests", () => {
+  it("should demonstrate function mocking with vi.fn()", () => {
     // Arrange
-    const mockFn = vi.fn().mockReturnValue('mocked value');
+    const mockFn = vi.fn().mockReturnValue("mocked value");
 
     // Act
-    const result = mockFn('test');
+    const result = mockFn("test");
 
     // Assert
-    expect(result).toBe('mocked value');
-    expect(mockFn).toHaveBeenCalledWith('test');
+    expect(result).toBe("mocked value");
+    expect(mockFn).toHaveBeenCalledWith("test");
     expect(mockFn).toHaveBeenCalledTimes(1);
   });
 
-  it('should demonstrate spy with vi.spyOn()', () => {
+  it("should demonstrate spy with vi.spyOn()", () => {
     // Arrange
     const obj = {
-      method: () => 'original',
+      method: () => "original",
     };
-    const spy = vi.spyOn(obj, 'method').mockReturnValue('spied');
+    const spy = vi.spyOn(obj, "method").mockReturnValue("spied");
 
     // Act
     const result = obj.method();
 
     // Assert
-    expect(result).toBe('spied');
+    expect(result).toBe("spied");
     expect(spy).toHaveBeenCalled();
 
     // Cleanup

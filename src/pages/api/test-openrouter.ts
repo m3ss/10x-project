@@ -82,7 +82,7 @@ compatible with any environment that runs JavaScript.
   `.trim();
 
   interface FlashcardResponse {
-    flashcards: Array<{ front: string; back: string }>;
+    flashcards: { front: string; back: string }[];
   }
 
   const response = await service.sendChatMessage<FlashcardResponse>(

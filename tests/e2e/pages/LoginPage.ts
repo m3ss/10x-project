@@ -1,9 +1,9 @@
-import type { Page, Locator } from '@playwright/test';
-import { BasePage } from './BasePage';
+import type { Page, Locator } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
 /**
  * Login Page Object Model
- * 
+ *
  * Encapsulates all interactions with the login page
  */
 export class LoginPage extends BasePage {
@@ -17,21 +17,21 @@ export class LoginPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     // Initialize locators using data-testid
-    this.loginForm = page.getByTestId('login-form');
-    this.emailInput = page.getByTestId('login-email-input');
-    this.passwordInput = page.getByTestId('login-password-input');
-    this.submitButton = page.getByTestId('login-submit-button');
-    this.errorMessage = page.getByTestId('login-error');
-    this.registerLink = page.getByTestId('register-link');
+    this.loginForm = page.getByTestId("login-form");
+    this.emailInput = page.getByTestId("login-email-input");
+    this.passwordInput = page.getByTestId("login-password-input");
+    this.submitButton = page.getByTestId("login-submit-button");
+    this.errorMessage = page.getByTestId("login-error");
+    this.registerLink = page.getByTestId("register-link");
   }
 
   /**
    * Navigate to login page
    */
   async goto() {
-    await super.goto('/login');
+    await super.goto("/login");
     await this.waitForElement(this.loginForm);
   }
 
@@ -75,7 +75,7 @@ export class LoginPage extends BasePage {
   /**
    * Wait for redirect after successful login
    */
-  async waitForRedirect(expectedPath: string = '/generate') {
+  async waitForRedirect(expectedPath = "/generate") {
     await this.page.waitForURL(`**${expectedPath}`, { timeout: 10000 });
   }
 
@@ -84,6 +84,6 @@ export class LoginPage extends BasePage {
    */
   async isLoading(): Promise<boolean> {
     const loadingText = await this.submitButton.textContent();
-    return loadingText?.includes('Logowanie...') || false;
+    return loadingText?.includes("Logowanie...") || false;
   }
 }

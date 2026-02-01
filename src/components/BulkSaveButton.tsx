@@ -27,14 +27,23 @@ export const BulkSaveButton = memo(function BulkSaveButton({
   }
 
   return (
-    <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900" data-testid="bulk-save-button">
+    <div
+      className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900"
+      data-testid="bulk-save-button"
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Info section */}
         <div className="space-y-1">
           <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Zapisz fiszki do bazy danych</h3>
           <p className="text-xs text-neutral-600 dark:text-neutral-400">
-            Wszystkich: <span className="font-semibold" data-testid="total-flashcards-count">{flashcards.length}</span> | Zaakceptowanych:{" "}
-            <span className="font-semibold text-green-600 dark:text-green-400" data-testid="accepted-flashcards-count">{acceptedFlashcards.length}</span>
+            Wszystkich:{" "}
+            <span className="font-semibold" data-testid="total-flashcards-count">
+              {flashcards.length}
+            </span>{" "}
+            | Zaakceptowanych:{" "}
+            <span className="font-semibold text-green-600 dark:text-green-400" data-testid="accepted-flashcards-count">
+              {acceptedFlashcards.length}
+            </span>
           </p>
         </div>
 

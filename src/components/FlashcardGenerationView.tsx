@@ -94,7 +94,12 @@ export function FlashcardGenerationView() {
           <TextInputArea value={textValue} onChange={setTextValue} disabled={isLoading} />
 
           <div className="flex gap-2">
-            <Button onClick={handleGenerate} disabled={!canGenerate} className="flex-1 sm:flex-none" data-testid="generate-button">
+            <Button
+              onClick={handleGenerate}
+              disabled={!canGenerate}
+              className="flex-1 sm:flex-none"
+              data-testid="generate-button"
+            >
               {isLoading ? (
                 <>
                   <svg className="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">

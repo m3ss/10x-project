@@ -1,10 +1,10 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from './pages/HomePage';
-import { LoginPage } from './pages/LoginPage';
+import { test, expect } from "@playwright/test";
+import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage";
 
 /**
  * Example E2E Tests
- * 
+ *
  * This demonstrates:
  * - Page Object Model pattern
  * - Browser contexts for isolation
@@ -13,8 +13,8 @@ import { LoginPage } from './pages/LoginPage';
  * - Setup and teardown hooks
  */
 
-test.describe('Home Page', () => {
-  test('should display home page correctly', async ({ page }) => {
+test.describe("Home Page", () => {
+  test("should display home page correctly", async ({ page }) => {
     // Arrange
     const homePage = new HomePage(page);
 
@@ -26,7 +26,7 @@ test.describe('Home Page', () => {
     expect(await homePage.isOnHomePage()).toBe(true);
   });
 
-  test('should navigate to login page', async ({ page }) => {
+  test("should navigate to login page", async ({ page }) => {
     // Arrange
     const homePage = new HomePage(page);
 
@@ -39,8 +39,8 @@ test.describe('Home Page', () => {
   });
 });
 
-test.describe('Login Page', () => {
-  test('should display login form', async ({ page }) => {
+test.describe("Login Page", () => {
+  test("should display login form", async ({ page }) => {
     // Arrange
     const loginPage = new LoginPage(page);
 
@@ -53,13 +53,13 @@ test.describe('Login Page', () => {
     await expect(loginPage.submitButton).toBeVisible();
   });
 
-  test('should show error on invalid credentials', async ({ page }) => {
+  test("should show error on invalid credentials", async ({ page }) => {
     // Arrange
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
 
     // Act
-    await loginPage.login('invalid@example.com', 'wrongpassword');
+    await loginPage.login("invalid@example.com", "wrongpassword");
 
     // Wait for response
     await page.waitForTimeout(2000);
@@ -69,8 +69,8 @@ test.describe('Login Page', () => {
   });
 });
 
-test.describe('Visual Regression', () => {
-  test('should match home page screenshot', async ({ page }) => {
+test.describe("Visual Regression", () => {
+  test("should match home page screenshot", async ({ page }) => {
     // Arrange
     const homePage = new HomePage(page);
 
@@ -78,17 +78,16 @@ test.describe('Visual Regression', () => {
     await homePage.navigate();
 
     // Assert - Visual comparison
-    await expect(page).toHaveScreenshot('home-page.png', {
+    await expect(page).toHaveScreenshot("home-page.png", {
       maxDiffPixels: 100,
     });
   });
 });
 
-test.describe('API Testing', () => {
-  test('should check API health endpoint', async ({ request }) => {
+test.describe("API Testing", () => {
+  test("should check API health endpoint", async ({ request }) => {
     // This is an example of API testing with Playwright
     // Uncomment when you have an API endpoint to test
-    
     // const response = await request.get('/api/health');
     // expect(response.ok()).toBeTruthy();
     // expect(response.status()).toBe(200);
@@ -96,20 +95,20 @@ test.describe('API Testing', () => {
 });
 
 // Example of using test hooks
-test.describe('Test Hooks Example', () => {
+test.describe("Test Hooks Example", () => {
   test.beforeEach(async ({ page }) => {
     // Setup before each test
-    console.log('Setting up test...');
+    console.log("Setting up test...");
   });
 
   test.afterEach(async ({ page }) => {
     // Cleanup after each test
-    console.log('Cleaning up test...');
+    console.log("Cleaning up test...");
   });
 
-  test('example test with hooks', async ({ page }) => {
+  test("example test with hooks", async ({ page }) => {
     // Test implementation
-    await page.goto('/');
+    await page.goto("/");
     await expect(page).toHaveTitle(/.+/);
   });
 });

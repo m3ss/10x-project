@@ -11,11 +11,7 @@ interface FlashcardCardProps {
   onUpdate: (id: number, front: string, back: string) => void;
 }
 
-export const FlashcardCard = memo(function FlashcardCard({
-  flashcard,
-  onDelete,
-  onUpdate,
-}: FlashcardCardProps) {
+export const FlashcardCard = memo(function FlashcardCard({ flashcard, onDelete, onUpdate }: FlashcardCardProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -90,14 +86,13 @@ export const FlashcardCard = memo(function FlashcardCard({
               </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={() => setIsEditDialogOpen(true)} data-testid="edit-flashcard-button">
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsEditDialogOpen(true)}
+                data-testid="edit-flashcard-button"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -154,7 +149,10 @@ export const FlashcardCard = memo(function FlashcardCard({
               <p className="mt-2 text-base text-neutral-900 dark:text-neutral-100">{flashcard.front}</p>
             </div>
             {isFlipped && (
-              <div className="absolute inset-0 rounded-lg border border-neutral-200 bg-neutral-50 p-6 transition-all dark:border-neutral-700 dark:bg-neutral-900" data-testid="flashcard-back">
+              <div
+                className="absolute inset-0 rounded-lg border border-neutral-200 bg-neutral-50 p-6 transition-all dark:border-neutral-700 dark:bg-neutral-900"
+                data-testid="flashcard-back"
+              >
                 <p className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
                   Tył
                 </p>

@@ -159,9 +159,7 @@ export function ResetPasswordForm({ mode, accessToken }: ResetPasswordFormProps)
           <Card>
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl font-bold">Sprawdź swoją skrzynkę email</CardTitle>
-              <CardDescription>
-                Wysłaliśmy link do resetowania hasła na podany adres email
-              </CardDescription>
+              <CardDescription>Wysłaliśmy link do resetowania hasła na podany adres email</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <ErrorNotification
@@ -202,9 +200,7 @@ export function ResetPasswordForm({ mode, accessToken }: ResetPasswordFormProps)
                   autoComplete="email"
                   required
                 />
-                <p className="text-xs text-muted-foreground">
-                  Wyślemy link do resetowania hasła na podany adres
-                </p>
+                <p className="text-xs text-muted-foreground">Wyślemy link do resetowania hasła na podany adres</p>
               </div>
             </CardContent>
 
@@ -236,10 +232,7 @@ export function ResetPasswordForm({ mode, accessToken }: ResetPasswordFormProps)
             <CardDescription>Twoje hasło zostało pomyślnie zmienione</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <ErrorNotification
-              message="Za chwilę zostaniesz przekierowany do strony logowania"
-              type="info"
-            />
+            <ErrorNotification message="Za chwilę zostaniesz przekierowany do strony logowania" type="info" />
           </CardContent>
         </Card>
       </div>
@@ -270,13 +263,9 @@ export function ResetPasswordForm({ mode, accessToken }: ResetPasswordFormProps)
                 required
               />
               {newPassword && (
-                <p className={`text-xs ${passwordStrength.color}`}>
-                  Siła hasła: {passwordStrength.text}
-                </p>
+                <p className={`text-xs ${passwordStrength.color}`}>Siła hasła: {passwordStrength.text}</p>
               )}
-              <p className="text-xs text-muted-foreground">
-                Minimum 8 znaków, zawierające cyfrę i znak specjalny
-              </p>
+              <p className="text-xs text-muted-foreground">Minimum 8 znaków, zawierające cyfrę i znak specjalny</p>
             </div>
 
             <div className="space-y-2">

@@ -8,13 +8,13 @@ import { AuthenticatedNavbar } from "../components/AuthenticatedNavbar";
 const user = Astro.locals.user;
 
 if (!user) {
-  return Astro.redirect('/login?redirect=/my-flashcards');
+  return Astro.redirect("/login?redirect=/my-flashcards");
 }
 
 // Prepare user object for components
 const authUser = {
   id: user.id,
-  email: user.email ?? '',
+  email: user.email ?? "",
 };
 ---
 

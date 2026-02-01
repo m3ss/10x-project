@@ -1,9 +1,9 @@
-import type { Page, Locator } from '@playwright/test';
-import { BasePage } from './BasePage';
+import type { Page, Locator } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
 /**
  * Home Page Object Model
- * 
+ *
  * This class represents the home page and provides methods to interact with it.
  * Following Playwright guidelines:
  * - Use locators for resilient element selection
@@ -18,18 +18,18 @@ export class HomePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     // Define locators using various strategies
-    this.loginButton = page.getByRole('link', { name: /login|zaloguj/i });
-    this.registerButton = page.getByRole('link', { name: /register|rejestr/i });
-    this.heading = page.locator('h1').first();
+    this.loginButton = page.getByRole("link", { name: /login|zaloguj/i });
+    this.registerButton = page.getByRole("link", { name: /register|rejestr/i });
+    this.heading = page.locator("h1").first();
   }
 
   /**
    * Navigate to home page
    */
   async navigate() {
-    await this.goto('/');
+    await this.goto("/");
     await this.waitForPageLoad();
   }
 
@@ -60,6 +60,6 @@ export class HomePage extends BasePage {
    * Check if user is on home page
    */
   async isOnHomePage(): Promise<boolean> {
-    return this.getCurrentURL().includes('/') || this.getCurrentURL().endsWith(':4321');
+    return this.getCurrentURL().includes("/") || this.getCurrentURL().endsWith(":4321");
   }
 }

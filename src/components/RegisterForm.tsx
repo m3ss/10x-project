@@ -134,9 +134,7 @@ export function RegisterForm({}: RegisterFormProps) {
                 required
                 data-testid="register-email-input"
               />
-              <p className="text-xs text-muted-foreground">
-                Użyjemy tego adresu do weryfikacji konta
-              </p>
+              <p className="text-xs text-muted-foreground">Użyjemy tego adresu do weryfikacji konta</p>
             </div>
 
             <div className="space-y-2">
@@ -157,9 +155,7 @@ export function RegisterForm({}: RegisterFormProps) {
                   Siła hasła: {passwordStrength.text}
                 </p>
               )}
-              <p className="text-xs text-muted-foreground">
-                Minimum 8 znaków, zawierające cyfrę i znak specjalny
-              </p>
+              <p className="text-xs text-muted-foreground">Minimum 8 znaków, zawierające cyfrę i znak specjalny</p>
             </div>
 
             <div className="space-y-2">
@@ -182,20 +178,8 @@ export function RegisterForm({}: RegisterFormProps) {
             <Button type="submit" className="w-full" disabled={isLoading} data-testid="register-submit-button">
               {isLoading ? (
                 <>
-                  <svg
-                    className="mr-2 h-4 w-4 animate-spin"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
+                  <svg className="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path
                       className="opacity-75"
                       fill="currentColor"

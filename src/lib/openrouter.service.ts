@@ -275,7 +275,7 @@ export class OpenRouterService {
 
     if (this.currentResponseFormat) {
       message += `\n\nCRITICAL: Respond with actual JSON DATA, not a schema definition. Your response must be valid JSON following this structure (but with real values, not schema syntax):\n\n`;
-      
+
       // Provide example structure
       if (this.currentResponseFormat.properties?.flashcards) {
         message += `Example format:\n{\n  "flashcards": [\n    {\n      "front": "actual question text here",\n      "back": "actual answer text here"\n    },\n    {\n      "front": "another question",\n      "back": "another answer"\n    }\n  ]\n}\n\nDo NOT respond with type definitions, schema, or metadata. Only actual data.`;

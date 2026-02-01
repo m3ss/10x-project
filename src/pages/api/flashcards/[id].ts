@@ -8,22 +8,24 @@ export const prerender = false;
 /**
  * Validation schema for PUT /flashcards/{id} endpoint
  */
-const flashcardUpdateSchema = z.object({
-  front: z
-    .string()
-    .min(1, "Front cannot be empty")
-    .max(200, "Front cannot exceed 200 characters")
-    .transform((val) => val.trim())
-    .optional(),
-  back: z
-    .string()
-    .min(1, "Back cannot be empty")
-    .max(500, "Back cannot exceed 500 characters")
-    .transform((val) => val.trim())
-    .optional(),
-}).refine((data) => data.front !== undefined || data.back !== undefined, {
-  message: "At least one field (front or back) must be provided",
-});
+const flashcardUpdateSchema = z
+  .object({
+    front: z
+      .string()
+      .min(1, "Front cannot be empty")
+      .max(200, "Front cannot exceed 200 characters")
+      .transform((val) => val.trim())
+      .optional(),
+    back: z
+      .string()
+      .min(1, "Back cannot be empty")
+      .max(500, "Back cannot exceed 500 characters")
+      .transform((val) => val.trim())
+      .optional(),
+  })
+  .refine((data) => data.front !== undefined || data.back !== undefined, {
+    message: "At least one field (front or back) must be provided",
+  });
 
 /**
  * GET /api/flashcards/{id}
@@ -215,11 +217,7 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
     const flashcardService = new FlashcardService(locals.supabase);
 
     // Update flashcard
-    const updatedFlashcard: FlashcardDto = await flashcardService.updateFlashcard(
-      flashcardId,
-      userId,
-      command
-    );
+    const updatedFlashcard: FlashcardDto = await flashcardService.updateFlashcard(flashcardId, userId, command);
 
     // Return successful response
     return new Response(
@@ -251,10 +249,7 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
 
     // Check if it's a validation error from the service
     if (error instanceof Error) {
-      if (
-        error.message.includes("cannot be empty") ||
-        error.message.includes("cannot exceed")
-      ) {
+      if (error.message.includes("cannot be empty") || error.message.includes("cannot exceed")) {
         return new Response(
           JSON.stringify({
             error: "Validation Error",
