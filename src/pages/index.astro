@@ -1,21 +1,4 @@
 ---
-import Welcome from "../components/Welcome.astro";
-import Layout from "../layouts/Layout.astro";
-import { ThemeToggle } from "../components/ThemeToggle";
-
-// Redirect logged in users to /my-flashcards
-const user = Astro.locals.user;
-
-if (user) {
-  return Astro.redirect("/my-flashcards");
-}
-
-// Check for message in query params (e.g., after account deletion)
-const url = new URL(Astro.request.url);
-const message = url.searchParams.get("message");
+// Redirect all users to login page - this is now the landing page
+return Astro.redirect("/login");
 ---
-
-<Layout>
-  <ThemeToggle client:load />
-  <Welcome />
-</Layout>

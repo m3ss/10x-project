@@ -30,7 +30,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     // Success
     const response: AuthResponse = {
       success: true,
-      redirectTo: "/",
+      redirectTo: "/login",
     };
 
     return new Response(JSON.stringify(response), {

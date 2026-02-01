@@ -52,8 +52,8 @@ export function AuthenticatedNavbar({ user }: AuthenticatedNavbarProps) {
       });
 
       if (response.ok) {
-        // Redirect to home page
-        window.location.href = "/";
+        // Redirect to login page
+        window.location.href = "/login";
       } else {
         console.error("Logout failed");
         setIsLoggingOut(false);

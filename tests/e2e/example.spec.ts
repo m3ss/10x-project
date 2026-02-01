@@ -14,16 +14,15 @@ import { LoginPage } from "./pages/LoginPage";
  */
 
 test.describe("Home Page", () => {
-  test("should display home page correctly", async ({ page }) => {
+  test("should redirect to login page", async ({ page }) => {
     // Arrange
     const homePage = new HomePage(page);
 
     // Act
     await homePage.navigate();
 
-    // Assert
-    await expect(page).toHaveTitle(/10x Astro Starter|flashcard/i);
-    expect(await homePage.isOnHomePage()).toBe(true);
+    // Assert - Home page now redirects to login
+    await expect(page).toHaveURL(/.*login/);
   });
 
   test("should navigate to login page", async ({ page }) => {
@@ -32,9 +31,8 @@ test.describe("Home Page", () => {
 
     // Act
     await homePage.navigate();
-    await homePage.goToLogin();
 
-    // Assert
+    // Assert - Already on login after redirect
     await expect(page).toHaveURL(/.*login/);
   });
 });
@@ -70,15 +68,15 @@ test.describe("Login Page", () => {
 });
 
 test.describe("Visual Regression", () => {
-  test("should match home page screenshot", async ({ page }) => {
+  test("should match login page screenshot after redirect", async ({ page }) => {
     // Arrange
     const homePage = new HomePage(page);
 
-    // Act
+    // Act - Home page redirects to login
     await homePage.navigate();
 
-    // Assert - Visual comparison
-    await expect(page).toHaveScreenshot("home-page.png", {
+    // Assert - Visual comparison of login page
+    await expect(page).toHaveScreenshot("login-page-from-home.png", {
       maxDiffPixels: 100,
     });
   });
@@ -107,8 +105,8 @@ test.describe("Test Hooks Example", () => {
   });
 
   test("example test with hooks", async ({ page }) => {
-    // Test implementation
+    // Test implementation - Home page redirects to login
     await page.goto("/");
-    await expect(page).toHaveTitle(/.+/);
+    await expect(page).toHaveURL(/.*login/);
   });
 });

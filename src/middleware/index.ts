@@ -5,7 +5,7 @@ import { createSupabaseServerInstance } from "../db/supabase.client.ts";
 // Public paths - Auth API endpoints & Server-Rendered Astro Pages
 const PUBLIC_PATHS = [
   // Server-Rendered Astro Pages
-  "/",
+  "/", // Redirects to /login
   "/login",
   "/register",
   "/reset-password",

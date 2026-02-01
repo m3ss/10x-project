@@ -57,9 +57,10 @@ export class HomePage extends BasePage {
   }
 
   /**
-   * Check if user is on home page
+   * Check if user is on home page (which redirects to login)
    */
   async isOnHomePage(): Promise<boolean> {
-    return this.getCurrentURL().includes("/") || this.getCurrentURL().endsWith(":4321");
+    // Home page now redirects to login
+    return this.getCurrentURL().includes("/login");
   }
 }

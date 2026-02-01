@@ -65,7 +65,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const response: AuthResponse = {
       success: true,
       message: "Twoje konto zostało trwale usunięte",
-      redirectTo: "/",
+      redirectTo: "/login",
     };
 
     return new Response(JSON.stringify(response), {
