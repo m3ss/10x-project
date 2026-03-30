@@ -2,7 +2,7 @@
 
 ## POST /api/generations Endpoint - Implementation Complete
 
-### Date: 2026.01.17
+### Date: 2026-01-17
 
 ### Summary
 
